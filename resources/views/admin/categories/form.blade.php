@@ -30,7 +30,10 @@
                                 <input type="text" class="form-control" name="name" id="name" placeholder="Enter Category Name">
                             </div>
 
+                            <?php $selected = !empty(old('parent_id')) ? old('parent_id') : !empty($category['parent_id']) ? $category['parent_id'] : '' ?>
+
                             <button type="submit" class="btn btn-primary">Save</button>
+                            <a href="{{ url('admin/categories') }}" class="btn btn-secondary btn-default">Back</a>
                         </form>
 
                     </div>

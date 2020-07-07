@@ -50,7 +50,7 @@
                             </tbody>
                         </table>
 
-                        {{ $categories->links() }}
+{{--                        {{ $categories->links() }}--}}
                     </div>
 
                     <div class="card-footer text-right">

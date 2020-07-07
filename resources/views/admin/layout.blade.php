@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="{{ asset('admin/assets/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min.css') }}">
     <link rel="stylesheet" href="{{ asset('admin/assets/vendor/charts/c3charts/c3.css') }}">
     <link rel="stylesheet" href="{{ asset('admin/assets/vendor/fonts/flag-icon-css/flag-icon.min.css') }}">
+
     <title>Concept - Bootstrap 4 Admin Dashboard Template</title>
 </head>
 
@@ -39,11 +40,7 @@
                 <!-- ============================================================== -->
                 @include('admin.partials.breadcrumb')
 
-                <div class="row">
-                    <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-                        @yield('content')
-                    </div>
-                </div>
+                @yield('content')
 
             </div>
         </div>
