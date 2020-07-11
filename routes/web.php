@@ -24,7 +24,16 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['aut
     Route::resource('users', 'UserController');
 });
 
+// Front Side
+Route::get('/', 'HomeController@index');
+Route::get('/products', 'ProductController@index');
+Route::get('/product/{slug}', 'ProductController@show');
 
+// Cart
+Route::get('/carts', 'CartController@index');
+Route::get('/carts/remove/{cartID}', 'CartController@destroy');
+Route::post('/carts', 'CartController@store');
+Route::post('/carts/update', 'CartController@update');
 
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
