@@ -15,7 +15,11 @@
     <link rel="stylesheet" href="{{ asset('admin/assets/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min.css') }}">
     <link rel="stylesheet" href="{{ asset('admin/assets/vendor/charts/c3charts/c3.css') }}">
     <link rel="stylesheet" href="{{ asset('admin/assets/vendor/fonts/flag-icon-css/flag-icon.min.css') }}">
-
+    <style>
+        .has-error{
+            border:1px solid red;
+        }
+    </style>
     <title>Concept - Bootstrap 4 Admin Dashboard Template</title>
 </head>
 
@@ -74,10 +78,29 @@
 <script src="{{ asset('admin/assets/libs/js/dashboard-ecommerce.js') }}"></script>
 
 <script>
-    $(".delete").on("submit", function () {
+    $(".delete").on("click", function () {
         return confirm("Do you want to remove this?");
     });
+
+    function showHideConfigurableAttributes() {
+        var productType = $(".product-type").val();
+
+        if (productType == 'configurable') {
+            $(".configurable-attributes").show();
+        } else {
+            $(".configurable-attributes").hide();
+        }
+    }
+
+    $(function(){
+        showHideConfigurableAttributes();
+        $(".product-type").change(function() {
+            showHideConfigurableAttributes();
+        });
+    });
 </script>
+
+@yield('js')
 </body>
 
 </html>

@@ -15,6 +15,7 @@ class CreateProductAttributeValuesTable extends Migration
     {
         Schema::create('product_attribute_values', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('parent_product_id')->nullable();
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('attribute_id');
             $table->text('text_value')->nullable();
@@ -26,6 +27,10 @@ class CreateProductAttributeValuesTable extends Migration
             $table->text('json_value')->nullable();
             $table->timestamps();
 
+            $table->foreign('parent_product_id')
+                ->references('id')
+                ->on('products');
+
             $table->foreign('product_id')
                 ->references('id')
                 ->on('products')
@@ -33,8 +38,7 @@ class CreateProductAttributeValuesTable extends Migration
 
             $table->foreign('attribute_id')
                 ->references('id')
-                ->on('attributes')
-                ->onDelete('cascade');
+                ->on('attributes');
         });
     }
 

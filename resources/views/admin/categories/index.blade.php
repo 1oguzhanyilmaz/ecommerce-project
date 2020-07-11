@@ -33,12 +33,20 @@
                                     <td>{{ $category->parent ? $category->parent->name : '' }}</td>
                                     <td>
                                         <form action="{{ url('admin/categories/'.$category->id) }}" method="POST">
-                                            <a href="{{ url('admin/categories/'.$category->id) }}" class="btn btn-info btn-sm" title="Show Category">Show</a>
-                                            <a href="{{ url('admin/categories/'.$category->id .'/edit') }}" class="btn btn-primary btn-sm" title="Edit Category">Edit</a>
+                                            @can('show_categories')
+                                                <a href="{{ url('admin/categories/'.$category->id) }}" class="btn btn-info btn-sm" title="Show Category">Show</a>
+                                            @endcan
+
+                                            @can('edit_categories')
+                                                <a href="{{ url('admin/categories/'.$category->id .'/edit') }}" class="btn btn-primary btn-sm" title="Edit Category">Edit</a>
+                                            @endcan
 
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" title="Delete Category" class="delete btn btn-danger btn-sm">Delete</button>
+
+                                            @can('delete_categories')
+                                                <button type="submit" title="Delete Category" class="delete btn btn-danger btn-sm">Delete</button>
+                                            @endcan
                                         </form>
                                     </td>
                                 </tr>
@@ -50,12 +58,14 @@
                             </tbody>
                         </table>
 
-{{--                        {{ $categories->links() }}--}}
+                        {{ $categories->links() }}
                     </div>
 
-                    <div class="card-footer text-right">
-                        <a href="{{ url('admin/categories/create') }}" class="btn btn-primary">Add New</a>
-                    </div>
+                    @can('add_categories')
+                        <div class="card-footer text-right">
+                            <a href="{{ url('admin/categories/create') }}" class="btn btn-primary">Add New</a>
+                        </div>
+                    @endcan
 
                 </div>
             </div>

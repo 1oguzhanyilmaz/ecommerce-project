@@ -15,20 +15,23 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('parent_id')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->string('sku');
+            $table->string('type');
             $table->string('name');
             $table->string('slug');
-            $table->decimal('price', 15, 2);
-            $table->decimal('weight', 10, 2);
-            $table->decimal('width', 10, 2);
-            $table->decimal('height', 10, 2);
-            $table->decimal('depth', 10, 2);
-            $table->text('short_description');
-            $table->text('description');
-            $table->integer('status');
+            $table->decimal('price', 15, 2)->nullable();
+            $table->decimal('weight', 10, 2)->nullable();
+            $table->decimal('width', 10, 2)->nullable();
+            $table->decimal('height', 10, 2)->nullable();
+            $table->decimal('length', 10, 2)->nullable();
+            $table->text('short_description')->nullable();
+            $table->text('description')->nullable();
+            $table->integer('status')->nullable();
             $table->timestamps();
 
+            $table->foreign('parent_id')->references('id')->on('products');
             $table->foreign('user_id')->references('id')->on('users');
         });
     }

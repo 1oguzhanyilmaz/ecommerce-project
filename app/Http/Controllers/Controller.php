@@ -12,4 +12,7 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     protected $data = [];
+
+    public function __construct() {
+    }
 }

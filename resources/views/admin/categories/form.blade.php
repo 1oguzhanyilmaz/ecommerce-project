@@ -3,7 +3,7 @@
 @section('content')
 
     @php
-        $formTitle = !empty($category) ? 'Update' : 'New'
+        $formTitle = isset($category) ? 'Update' : 'New'
     @endphp
 
     <div class="content">
@@ -19,18 +19,30 @@
 
                         @include('admin.partials.flash', ['$errors' => $errors])
 
-                        <form action="{{ url('admin/categories') }}" method="POST">
+                        <?php $url = (isset($category)) ? 'admin/categories/'.$category->id : 'admin/categories'; ?>
+
+                        <form action="{{ url($url) }}" method="POST">
                             @csrf
-                            @if(!empty($category))
+                            @if(isset($category))
                                 @method('PUT')
                             @endif
 
                             <div class="form-group">
                                 <label for="name">Name :</label>
-                                <input type="text" class="form-control" name="name" id="name" placeholder="Enter Category Name">
+                                <input type="text" class="form-control" name="name" id="name" placeholder="Enter Category Name" value="{{ isset($category) ? $category->name : '' }}">
                             </div>
 
-                            <?php $selected = !empty(old('parent_id')) ? old('parent_id') : !empty($category['parent_id']) ? $category['parent_id'] : '' ?>
+                            <?php $parentId = isset($category) && !is_null($category->parent_id) ? $category->parent_id : ''; ?>
+                            <?php $selected = !empty(old('parent_id')) ? old('parent_id') : $parentId; ?>
+
+                            <div class="form-group">
+
+                                {!! General::selectMultiLevel('parent_id',
+                                                            $categories,
+                                                            ['class' => 'form-control',
+                                                                'selected' => $selected,
+                                                                'placeholder' => 'Main Category']) !!}
+                            </div>
 
                             <button type="submit" class="btn btn-primary">Save</button>
                             <a href="{{ url('admin/categories') }}" class="btn btn-secondary btn-default">Back</a>
