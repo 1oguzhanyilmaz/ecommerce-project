@@ -8,24 +8,33 @@ class Product extends Model
 {
     protected $guarded = [];
 
+    public const ACTIVE = 1;
+    public const INACTIVE = 2;
+
+    public const STATUSES = [
+        self::ACTIVE => 'active',
+        self::INACTIVE => 'inactive',
+    ];
+
+    public const SIMPLE = 'simple';
+    public const CONFIGURABLE = 'configurable';
+    public const TYPES = [
+        self::SIMPLE => 'Simple',
+        self::CONFIGURABLE => 'Configurable',
+    ];
+
     public static function statuses(){
-        return [
-            1 => 'active',
-            0 => 'inactive',
-        ];
+        return self::STATUSES;
     }
 
-    public function status_label(){
+    public function statusLabel(){
         $statuses = $this->statuses();
 
         return isset($this->status) ? $statuses[$this->status] : null;
     }
 
     public static function types(){
-        return [
-            'simple' => 'Simple',
-            'configurable' => 'Configurable',
-        ];
+        return self::TYPES;
     }
 
     public function user(){
@@ -58,12 +67,13 @@ class Product extends Model
 
     public function scopeActive($query){
         return $query->where('status', 1)
-                        ->where('parent_id', NULL);
+                        ->where('parent_id', null);
     }
 
-    function price_label(){
+    public function priceLabel(){
         return ($this->variants->count() > 0) ? $this->variants->first()->price : $this->price;
     }
+
 
     public function configurable(){
         return $this->type == 'configurable';

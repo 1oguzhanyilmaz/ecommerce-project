@@ -4,8 +4,8 @@ namespace App\Helpers;
 
 class General
 {
-    public static function selectMultiLevel($name, $array = [], $options = [])
-    {
+
+    public static function selectMultiLevel($name, $array = [], $options = []){
         $class_form = "";
         if (isset($options['class'])) {
             $class_form = $options['class'];
@@ -20,8 +20,7 @@ class General
             $placeholder = [
                 'id' => '',
                 'name' => $options['placeholder'],
-                'parent_id' => 0,
-                'disabled' => false
+                'parent_id' => 0
             ];
             $array[] = $placeholder;
         }
@@ -31,14 +30,14 @@ class General
             $multiple = 'multiple';
         }
 
-        $select = '<select style="" class="' . $class_form . '" name="' . $name . '" ' . $multiple . '>';
+        $select = '<select class="'.$class_form.'" name="'.$name.'" '.$multiple.'>';
         $select .= General::getMultiLevelOptions($array, 0, [], $selected);
         $select .= '</select>';
 
         return $select;
     }
 
-    public static function getMultiLevelOptions($array, $parent_id = 0, $parents = [], $selected = []) {
+    public static function getMultiLevelOptions($array, $parent_id = 0, $parents = [], $selected = []){
         static $i = 0;
         if ($parent_id == 0) {
             foreach ($array as $element) {
@@ -55,8 +54,7 @@ class General
                 if (in_array($element['id'], $selected)) {
                     $selected_item = 'selected';
                 }
-                $disabled = (isset($element['disabled']) && $element['disabled']) ? 'disabled' : '';
-                $menu_html .= '<option value="' . $element['id'] . '" ' . $selected_item . ' ' . $disabled . '>';
+                $menu_html .= '<option value="' . $element['id'] . '" ' . $selected_item . '>';
                 for ($j = 0; $j < $i; $j++) {
                     $menu_html .= '&mdash; ';
                 }
@@ -70,5 +68,32 @@ class General
 
         $i--;
         return $menu_html;
+    }
+
+    public static function priceFormat($number, $currency = ''){
+        $currency = !empty($currency) ? $currency.' ' : '';
+        return $currency . number_format($number, 0, ",", ".");
+    }
+
+    public static function datetimeFormat($datetime, $format = 'd M Y H:i:s'){
+        if (!empty($datetime)) {
+            return date($format, strtotime($datetime));
+        } else {
+            return '';
+        }
+    }
+
+    public static function showAttributes($jsonAttributes){
+        $attributes = json_decode($jsonAttributes, true);
+        $showAttributes = '';
+        if ($attributes) {
+            $showAttributes .= '<ul class="item-attributes">';
+            foreach ($attributes as $key => $attribute) {
+                $showAttributes .= '<li>'. ucwords($key) . ': <span>' . $attribute . '</span><li>';
+            }
+            $showAttributes .= '</ul>';
+        }
+
+        return $showAttributes;
     }
 }

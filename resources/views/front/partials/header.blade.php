@@ -16,18 +16,17 @@
                         <li><a class="dropdown-item" href="#">Russian </a></li>
                     </ul>
                 </li>
-            </ul> <!-- list-inline //  -->
-        </div> <!-- navbar-collapse .// -->
-        </div> <!-- container //  -->
-    </nav> <!-- header-top-light.// -->
+            </ul>
+        </div>
+    </nav>
 
     <section class="header-main border-bottom">
         <div class="container">
             <div class="row align-items-center">
 
                 <div class="col-lg-2 col-6">
-                    <a href="#" class="brand-wrap">
-                        <img class="logo" src="images/logo.png">
+                    <a href="{{ route('home') }}" class="brand-wrap">
+                        <img class="logo" src="{{ asset('images/logo.png') }}">
                     </a>
                 </div>
 
@@ -47,16 +46,20 @@
                 <div class="col-lg-4 col-sm-6 col-12">
                     <div class="widgets-wrap float-md-right">
                         <div class="widget-header mr-3">
-                            <a href="#" class="icon icon-sm rounded-circle border"><i class="fa fa-shopping-cart"></i></a>
-                            <span class="badge badge-pill badge-danger notify">0</span>
+                            <a href="{{ route('cart') }}" class="icon icon-sm rounded-circle border">
+                                <i class="fa fa-shopping-cart"></i>
+                            </a>
+                            <span class="badge badge-pill badge-danger notify">{{ \Cart::getContent()->count() }}</span>
                         </div>
                         <div class="widget-header icontext">
-                            <a href="#" class="icon icon-sm rounded-circle border"><i class="fa fa-user"></i></a>
+                            <a href="{{ route('profile') }}" class="icon icon-sm rounded-circle border">
+                                <i class="fa fa-user"></i>
+                            </a>
                             <div class="text">
                                 <span class="text-muted">Welcome!</span>
                                 <div>
-                                    <a href="#">Sign in</a> |
-                                    <a href="#"> Register</a>
+                                    <a href="{{ route('login') }}">Sign in</a> |
+                                    <a href="{{ route('register') }}"> Register</a>
                                 </div>
                             </div>
                         </div>

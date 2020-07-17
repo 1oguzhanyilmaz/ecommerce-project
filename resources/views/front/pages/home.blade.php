@@ -14,15 +14,16 @@
 
             <header class="section-heading">
                 <h3 class="section-title">Popular products</h3>
-            </header><!-- sect-heading -->
-
+            </header>
 
             <div class="row">
                 <div class="col-md-3">
                     <div href="#" class="card card-product-grid">
-                        <a href="#" class="img-wrap"> <img src="images/items/1.jpg"> </a>
+                        <a href="{{ route('product.details', $slug) }}" class="img-wrap">
+                            <img src="https://via.placeholder.com/150">
+                        </a>
                         <figcaption class="info-wrap">
-                            <a href="#" class="title">Just another product name</a>
+                            <a href="#" class="title">Product Name</a>
 
                             <div class="rating-wrap">
                                 <ul class="rating-stars">
@@ -35,15 +36,17 @@
                                 </ul>
                                 <span class="label-rating text-muted"> 34 reviws</span>
                             </div>
-                            <div class="price mt-1">$179.00</div> <!-- price-wrap.// -->
+                            <div class="price mt-1">10 TL</div>
                         </figcaption>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div href="#" class="card card-product-grid">
-                        <a href="#" class="img-wrap"> <img src="images/items/2.jpg"> </a>
+                        <a href="#" class="img-wrap">
+                            <img src="https://via.placeholder.com/150">
+                        </a>
                         <figcaption class="info-wrap">
-                            <a href="#" class="title">Some item name here</a>
+                            <a href="#" class="title">Product Name</a>
 
                             <div class="rating-wrap">
                                 <ul class="rating-stars">
@@ -56,15 +59,17 @@
                                 </ul>
                                 <span class="label-rating text-muted"> 34 reviws</span>
                             </div>
-                            <div class="price mt-1">$280.00</div> <!-- price-wrap.// -->
+                            <div class="price mt-1">10 TL</div>
                         </figcaption>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div href="#" class="card card-product-grid">
-                        <a href="#" class="img-wrap"> <img src="images/items/3.jpg"> </a>
+                        <a href="#" class="img-wrap">
+                            <img src="https://via.placeholder.com/150">
+                        </a>
                         <figcaption class="info-wrap">
-                            <a href="#" class="title">Great product name here</a>
+                            <a href="#" class="title">Product Name</a>
 
                             <div class="rating-wrap">
                                 <ul class="rating-stars">
@@ -77,15 +82,17 @@
                                 </ul>
                                 <span class="label-rating text-muted"> 34 reviws</span>
                             </div>
-                            <div class="price mt-1">$56.00</div> <!-- price-wrap.// -->
+                            <div class="price mt-1">10 TL</div>
                         </figcaption>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div href="#" class="card card-product-grid">
-                        <a href="#" class="img-wrap"> <img src="images/items/4.jpg"> </a>
+                        <a href="#" class="img-wrap">
+                            <img src="https://via.placeholder.com/150">
+                        </a>
                         <figcaption class="info-wrap">
-                            <a href="#" class="title">Just another product name</a>
+                            <a href="#" class="title">Product Name</a>
 
                             <div class="rating-wrap">
                                 <ul class="rating-stars">
@@ -98,7 +105,7 @@
                                 </ul>
                                 <span class="label-rating text-muted"> 34 reviws</span>
                             </div>
-                            <div class="price mt-1">$179.00</div> <!-- price-wrap.// -->
+                            <div class="price mt-1">10 TL</div>
                         </figcaption>
                     </div>
                 </div>
@@ -120,37 +127,45 @@
             <div class="row">
                 <div class="col-md-3">
                     <div href="#" class="card card-product-grid">
-                        <a href="#" class="img-wrap"> <img src="images/items/1.jpg"> </a>
+                        <a href="#" class="img-wrap">
+                            <img src="https://via.placeholder.com/150">
+                        </a>
                         <figcaption class="info-wrap">
                             <a href="#" class="title">Just another product name</a>
-                            <div class="price mt-1">$179.00</div> <!-- price-wrap.// -->
+                            <div class="price mt-1">$179.00</div>
                         </figcaption>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div href="#" class="card card-product-grid">
-                        <a href="#" class="img-wrap"> <img src="images/items/2.jpg"> </a>
+                        <a href="#" class="img-wrap">
+                            <img src="https://via.placeholder.com/150">
+                        </a>
                         <figcaption class="info-wrap">
                             <a href="#" class="title">Some item name here</a>
-                            <div class="price mt-1">$280.00</div> <!-- price-wrap.// -->
+                            <div class="price mt-1">$280.00</div>
                         </figcaption>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div href="#" class="card card-product-grid">
-                        <a href="#" class="img-wrap"> <img src="images/items/3.jpg"> </a>
+                        <a href="#" class="img-wrap">
+                            <img src="https://via.placeholder.com/150">
+                        </a>
                         <figcaption class="info-wrap">
                             <a href="#" class="title">Great product name here</a>
-                            <div class="price mt-1">$56.00</div> <!-- price-wrap.// -->
+                            <div class="price mt-1">$56.00</div>
                         </figcaption>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div href="#" class="card card-product-grid">
-                        <a href="#" class="img-wrap"> <img src="images/items/4.jpg"> </a>
+                        <a href="#" class="img-wrap">
+                            <img src="https://via.placeholder.com/150">
+                        </a>
                         <figcaption class="info-wrap">
                             <a href="#" class="title">Just another product name</a>
-                            <div class="price mt-1">$179.00</div> <!-- price-wrap.// -->
+                            <div class="price mt-1">$179.00</div>
                         </figcaption>
                     </div>
                 </div>
@@ -173,37 +188,37 @@
                     <figure class="box item-logo">
                         <a href="#"><img src="{{ asset('images/brands/1.png') }}"></a>
                         <figcaption class="border-top pt-2">36 Products</figcaption>
-                    </figure> <!-- item-logo.// -->
+                    </figure>
                 </div>
                 <div class="col-md-2  col-6">
                     <figure class="box item-logo">
                         <a href="#"><img src="{{ asset('images/brands/1.png') }}"></a>
                         <figcaption class="border-top pt-2">980 Products</figcaption>
-                    </figure> <!-- item-logo.// -->
+                    </figure>
                 </div>
                 <div class="col-md-2  col-6">
                     <figure class="box item-logo">
                         <a href="#"><img src="{{ asset('images/brands/1.png') }}"></a>
                         <figcaption class="border-top pt-2">25 Products</figcaption>
-                    </figure> <!-- item-logo.// -->
+                    </figure>
                 </div>
                 <div class="col-md-2  col-6">
                     <figure class="box item-logo">
                         <a href="#"><img src="{{ asset('images/brands/1.png') }}"></a>
                         <figcaption class="border-top pt-2">72 Products</figcaption>
-                    </figure> <!-- item-logo.// -->
+                    </figure>
                 </div>
                 <div class="col-md-2  col-6">
                     <figure class="box item-logo">
                         <a href="#"><img src="{{ asset('images/brands/1.png') }}"></a>
                         <figcaption class="border-top pt-2">41 Products</figcaption>
-                    </figure> <!-- item-logo.// -->
+                    </figure>
                 </div>
                 <div class="col-md-2  col-6">
                     <figure class="box item-logo">
                         <a href="#"><img src="{{ asset('images/brands/1.png') }}"></a>
                         <figcaption class="border-top pt-2">12 Products</figcaption>
-                    </figure> <!-- item-logo.// -->
+                    </figure>
                 </div>
             </div>
         </div>

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Product;
+use Darryldecode\Cart\Cart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class CartController extends Controller
 {
@@ -11,11 +13,26 @@ class CartController extends Controller
         parent::__construct();
     }
 
-    public function index(){
+    public function getCart(){
         $items = \Cart::getContent();
-        $this->data['items'] =  $items;
+        $cartCount = \Cart::getContent()->count();
 
-        return $this->load_theme('carts.index', $this->data);
+        return view('front.pages.cart', compact('items','cartCount'));
+    }
+
+    public function removeItem($itemId){
+        \Cart::remove($itemId);
+
+        if (\Cart::isEmpty()) {
+            return redirect('/');
+        }
+        return redirect()->back()->with('message', 'Item removed from cart successfully.');
+    }
+
+    public function clearCart(){
+        \Cart::clear();
+
+        return redirect('/');
     }
 
     public function store(Request $request){
@@ -54,6 +71,9 @@ class CartController extends Controller
             $attributes['color'] = $params['color'];
         }
 
+        $itemQuantity =  $this->_getItemQuantity(md5($product->id)) + $params['qty'];
+        $this->_checkProductInventory($product, $itemQuantity);
+
         $item = [
             'id' => md5($product->id),
             'name' => $product->name,
@@ -63,9 +83,9 @@ class CartController extends Controller
             'associatedModel' => $product,
         ];
 
-        \Cart::add($item);
+        Cart::add($item);
 
-        \Session::flash('success', 'Product '. $item['name'] .' has been added to cart');
+        Session::flash('success', 'Product '. $item['name'] .' has been added to cart');
         return redirect('/product/'. $slug);
     }
 
@@ -74,7 +94,10 @@ class CartController extends Controller
 
         if ($items = $params['items']) {
             foreach ($items as $cartID => $item) {
-                \Cart::update($cartID, [
+                $cartItem = $this->_getCartItem($cartID);
+                $this->_checkProductInventory($cartItem->associatedModel, $item['quantity']);
+
+                Cart::update($cartID, [
                     'quantity' => [
                         'relative' => false,
                         'value' => $item['quantity'],
@@ -82,14 +105,39 @@ class CartController extends Controller
                 ]);
             }
 
-            \Session::flash('success', 'The cart has been updated');
+            Session::flash('success', 'The cart has been updated');
             return redirect('carts');
         }
     }
 
-    public function destroy($id){
-        \Cart::remove($id);
+    #############################################
+    ##################################
+    ######################
 
-        return redirect('carts');
+    private function _getItemQuantity($itemId){
+        $items = \Cart::getContent();
+        $itemQuantity = 0;
+        if ($items) {
+            foreach ($items as $item) {
+                if ($item->id == $itemId) {
+                    $itemQuantity = $item->quantity;
+                    break;
+                }
+            }
+        }
+
+        return $itemQuantity;
+    }
+
+    private function _getCartItem($cartID){
+        $items = Cart::getContent();
+
+        return $items[$cartID];
+    }
+
+    private function _checkProductInventory($product, $itemQuantity){
+        if ($product->productInventory->qty < $itemQuantity) {
+            throw new \App\Exceptions\OutOfStockException('The product '. $product->sku .' is out of stock');
+        }
     }
 }

@@ -15,9 +15,9 @@ class CategoryController extends Controller
     use Authorizable;
 
     public function index(){
-        $this->data['categories'] = Category::orderBy('name', 'ASC')->paginate(10);
+        $categories = Category::orderBy('id', 'ASC')->paginate(10);
 
-        return view('admin.categories.index', $this->data);
+        return view('admin.categories.index', compact('categories'));
     }
 
     public function create(){

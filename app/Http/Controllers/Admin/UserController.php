@@ -17,19 +17,16 @@ class UserController extends Controller
 
     public function __construct(){
         parent::__construct();
-
-        $this->data['currentAdminMenu'] = 'role-user';
-        $this->data['currentAdminSubMenu'] = 'user';
     }
 
     public function index(){
-        $users = User::latest()->paginate(10);
+        $users = User::where('is_manager', '1')->paginate(10);
 
         return view('admin.users.index', compact('users'));
     }
 
     public function create(){
-        $roles = Role::pluck('name', 'id');
+        $roles = Role::all();
 
         return view('admin.users.create', compact('roles'));
     }

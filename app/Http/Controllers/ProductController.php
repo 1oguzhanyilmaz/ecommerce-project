@@ -11,31 +11,21 @@ use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
-    public function __construct()
-    {
+    public function __construct(){
         parent::__construct();
 
         $this->data['q'] = null;
-
-        $this->data['categories'] = Category::parentCategories()
-            ->orderBy('name', 'asc')
-            ->get();
-
+        $this->data['categories'] = Category::parentCategories()->orderBy('name', 'asc')->get();
         $this->data['minPrice'] = Product::min('price');
         $this->data['maxPrice'] = Product::max('price');
 
-        $this->data['colors'] = AttributeOption::whereHas(
-            'attribute',
-            function ($query) {
+        $this->data['colors'] = AttributeOption::whereHas('attribute', function ($query) {
                 $query->where('code', 'color')
                     ->where('is_filterable', 1);
             }
-        )
-            ->orderBy('name', 'asc')->get();
+        )->orderBy('name', 'asc')->get();
 
-        $this->data['sizes'] = AttributeOption::whereHas(
-            'attribute',
-            function ($query) {
+        $this->data['sizes'] = AttributeOption::whereHas('attribute',function ($query) {
                 $query->where('code', 'size')
                     ->where('is_filterable', 1);
             }
@@ -52,8 +42,7 @@ class ProductController extends Controller
         $this->data['selectedSort'] = url('products');
     }
 
-    public function index(Request $request)
-    {
+    public function index(Request $request){
         $products = Product::active();
 
         $products = $this->_searchProducts($products, $request);
@@ -61,12 +50,12 @@ class ProductController extends Controller
         $products = $this->_filterProductsByAttribute($products, $request);
         $products = $this->_sortProducts($products, $request);
 
-        $this->data['products'] = $products->paginate(9);
-        return $this->loadTheme('products.index', $this->data);
+        $products = $products->paginate(9);
+
+        return view('front.pages.product-list', compact('products'));
     }
 
-    private function _searchProducts($products, $request)
-    {
+    private function _searchProducts($products, $request){
         if ($q = $request->query('q')) {
             $q = str_replace('-', ' ', Str::slug($q));
 
@@ -92,8 +81,7 @@ class ProductController extends Controller
         return $products;
     }
 
-    private function _filterProductsByPriceRange($products, $request)
-    {
+    private function _filterProductsByPriceRange($products, $request){
         $lowPrice = null;
         $highPrice = null;
 
@@ -122,8 +110,7 @@ class ProductController extends Controller
         return $products;
     }
 
-    private function _filterProductsByAttribute($products, $request)
-    {
+    private function _filterProductsByAttribute($products, $request){
         if ($attributeOptionID = $request->query('option')) {
             $attributeOption = AttributeOption::findOrFail($attributeOptionID);
 
@@ -139,8 +126,7 @@ class ProductController extends Controller
         return $products;
     }
 
-    private function _sortProducts($products, $request)
-    {
+    private function _sortProducts($products, $request){
         if ($sort = preg_replace('/\s+/', '', $request->query('sort'))) {
             $availableSorts = ['price', 'created_at'];
             $availableOrder = ['asc', 'desc'];
@@ -159,8 +145,7 @@ class ProductController extends Controller
         return $products;
     }
 
-    public function show($slug)
-    {
+    public function show($slug){
         $product = Product::active()->where('slug', $slug)->first();
 
         if (!$product) {
@@ -168,25 +153,25 @@ class ProductController extends Controller
         }
 
         if ($product->configurable()) {
-            $this->data['colors'] = ProductAttributeValue::getAttributeOptions($product, 'color')->pluck('text_value', 'text_value');
-            $this->data['sizes'] = ProductAttributeValue::getAttributeOptions($product, 'size')->pluck('text_value', 'text_value');
+            $colors = ProductAttributeValue::getAttributeOptions($product, 'color')->pluck('text_value', 'text_value');
+            $sizes = ProductAttributeValue::getAttributeOptions($product, 'size')->pluck('text_value', 'text_value');
         }
 
         $this->data['product'] = $product;
 
-        return $this->loadTheme('products.show', $this->data);
+//        return $this->loadTheme('products.show', $this->data);
+        return view('front.pages.product-details', compact('products','colors','sizes'));
     }
 
-    public function quickView($slug)
-    {
-        $product = Product::active()->where('slug', $slug)->firstOrFail();
-        if ($product->configurable()) {
-            $this->data['colors'] = ProductAttributeValue::getAttributeOptions($product, 'color')->pluck('text_value', 'text_value');
-            $this->data['sizes'] = ProductAttributeValue::getAttributeOptions($product, 'size')->pluck('text_value', 'text_value');
-        }
-
-        $this->data['product'] = $product;
-
-        return $this->loadTheme('products.quick_view', $this->data);
-    }
+//    public function quickView($slug){
+//        $product = Product::active()->where('slug', $slug)->firstOrFail();
+//        if ($product->configurable()) {
+//            $this->data['colors'] = ProductAttributeValue::getAttributeOptions($product, 'color')->pluck('text_value', 'text_value');
+//            $this->data['sizes'] = ProductAttributeValue::getAttributeOptions($product, 'size')->pluck('text_value', 'text_value');
+//        }
+//
+//        $this->data['product'] = $product;
+//
+//        return $this->loadTheme('products.quick_view', $this->data);
+//    }
 }

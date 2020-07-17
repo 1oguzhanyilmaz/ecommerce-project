@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Permission extends \Spatie\Permission\Models\Permission
 {
-    public static function defaultPermissions()
-    {
+    public static function defaultPermissions(){
         return [
             'view_users',
             'add_users',
@@ -38,6 +37,11 @@ class Permission extends \Spatie\Permission\Models\Permission
             'add_attributes',
             'edit_attributes',
             'delete_attributes',
+
+            'view_shipments',
+            'add_shipments',
+            'edit_shipments',
+            'delete_shipments',
         ];
     }
 }

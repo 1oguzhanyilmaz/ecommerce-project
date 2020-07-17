@@ -99,7 +99,6 @@ class ProductController extends Controller
     }
 
     public function update(ProductRequest $request, $id){
-
         $product = Product::findOrFail($id);
         $product->type = $request->input('type');
         $product->name = $request->input('name');

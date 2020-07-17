@@ -11,6 +11,7 @@ class User extends Authenticatable
 {
     use Notifiable, HasRoles;
 
+    public static $guard_name = "admin";
     /**
      * The attributes that are mass assignable.
      *
@@ -40,5 +41,9 @@ class User extends Authenticatable
 
     public function products(){
         return $this->hasMany('App\Product');
+    }
+
+    public function userDetail(){
+        return $this->hasOne('App\UserDetail');
     }
 }
