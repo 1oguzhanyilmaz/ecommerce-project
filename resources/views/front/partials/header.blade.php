@@ -45,24 +45,38 @@
 
                 <div class="col-lg-4 col-sm-6 col-12">
                     <div class="widgets-wrap float-md-right">
-                        <div class="widget-header mr-3">
-                            <a href="{{ route('cart') }}" class="icon icon-sm rounded-circle border">
-                                <i class="fa fa-shopping-cart"></i>
-                            </a>
-                            <span class="badge badge-pill badge-danger notify">{{ \Cart::getContent()->count() }}</span>
-                        </div>
-                        <div class="widget-header icontext">
-                            <a href="{{ route('profile') }}" class="icon icon-sm rounded-circle border">
-                                <i class="fa fa-user"></i>
-                            </a>
-                            <div class="text">
-                                <span class="text-muted">Welcome!</span>
-                                <div>
-                                    <a href="{{ route('login') }}">Sign in</a> |
-                                    <a href="{{ route('register') }}"> Register</a>
+                        @guest
+                            <div class="widget-header icontext">
+                                <div class="text">
+                                    <span class="text-muted">Welcome!</span>
+                                    <div>
+                                        <a href="{{ route('login') }}">Sign in</a> |
+                                        <a href="{{ route('register') }}"> Register</a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        @else
+                            <div class="widget-header mr-3">
+                                <a href="{{ route('cart') }}" class="icon icon-sm rounded-circle border">
+                                    <i class="fa fa-shopping-cart"></i>
+                                </a>
+                                <span class="badge badge-pill badge-danger notify">{{ \Cart::getContent()->count() }}</span>
+                            </div>
+
+                            <div class="widget-header icontext">
+                                <a href="{{ route('profile') }}" class="icon icon-sm rounded-circle border">
+                                    <i class="fa fa-user"></i>
+                                </a>
+                                <div class="text d-flex flex-column justify-content-between align-items-center">
+                                    <span class="text-muted">{{ ucfirst(auth()->user()->name) }}</span>
+                                    <a href="{{ route('logout') }}" class="border-top btn-sm mt-1"  onclick="event.preventDefault();
+                                                 document.getElementById('logout-form').submit();">Log out</a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+                                </div>
+                            </div>
+                        @endguest
                     </div>
                 </div>
 
