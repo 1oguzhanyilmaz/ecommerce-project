@@ -56,10 +56,3 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/orders', 'HomeController@orders')->name('orders');
     Route::get('/orders/{orderID}', 'HomeController@orderShow')->name('order.show');
 });
-
-// Cart
-//Route::get('/cart', 'CartController@getCart')->name('cart');
-//Route::get('/cart/item/{itemId}/remove', 'CartController@removeItem')->name('cart.remove');
-//Route::get('/cart/clear', 'CartController@clearCart')->name('cart.clear');
-//Route::post('/cart', 'CartController@store');
-//Route::post('/cart/update', 'CartController@update');

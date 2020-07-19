@@ -53,9 +53,6 @@
                                             </li>
                                         </ul>
                                         <div class="product-actions">
-                                            <a class="animate-left add-to-fav" title="Wishlist"  product-slug="{{ $product->slug }}" href="">
-                                                wishlist,
-                                            </a>
                                             <a class="animate-top add-to-cart" title="Add To Cart" href="" product-id="{{ $product->id }}" product-type="{{ $product->type }}" product-slug="{{ $product->slug }}">
                                                 add,
                                             </a>

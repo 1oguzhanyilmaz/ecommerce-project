@@ -82,7 +82,6 @@
                                                 </div>
                                             </td>
                                             <td class="text-right">
-                                                <a data-original-title="Save to Wishlist" title="" href="" class="btn btn-light" data-toggle="tooltip"> <i class="fa fa-heart"></i></a>
                                                 <a href="{{ route('cart.remove', $item->id) }}" class="btn btn-light"> Remove</a>
                                             </td>
                                         </tr>

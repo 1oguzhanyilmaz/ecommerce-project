@@ -27,33 +27,6 @@ $(document).ready(function() {
         }
     });
 
-    $('.add-to-fav').on('click', function (e) {
-        e.preventDefault();
-
-        var product_slug = $(this).attr('product-slug');
-
-        $.ajax({
-            type: 'POST',
-            url: '/favorites',
-            data:{
-                _token: $('meta[name="csrf-token"]').attr('content'),
-                product_slug: product_slug
-            },
-            success: function (response) {
-                alert(response);
-            },
-            error: function (xhr, textStatus, errorThrown) {
-                if (xhr.status == 401) {
-                   alert('401');
-                }
-
-                if (xhr.status == 422) {
-                    alert(xhr.responseText);
-                }
-            }
-        });
-    });
-
     $('.increase-item, .decrease-item').on('click', function (e) {
         e.preventDefault();
 

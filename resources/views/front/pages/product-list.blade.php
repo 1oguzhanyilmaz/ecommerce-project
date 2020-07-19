@@ -248,11 +248,6 @@
                                             <p>
                                                 <a href="{{ route('product.details', $product->slug) }}" class="btn btn-primary btn-block">Details</a>
 
-                                                <a class="btn btn-light btn-block animate-left add-to-fav" title="Wishlist"  product-slug="{{ $product->slug }}" href="">
-                                                    <i class="fa fa-heart"></i>
-                                                    <span class="text">Add to wishlist</span>
-                                                </a>
-
                                                 <a class="btn btn-light btn-block animate-left add-to-cart" title="Wishlist"  product-slug="{{ $product->slug }}" href="" product-id="{{ $product->id }}" product-type="{{ $product->type }}" product-slug="{{ $product->slug }}">
                                                     <i class="fa fa-shopping-cart"></i>
                                                     <span class="text">Add to cart</span>
