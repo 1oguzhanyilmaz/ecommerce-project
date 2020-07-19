@@ -45,6 +45,14 @@
 
                 <div class="col-lg-4 col-sm-6 col-12">
                     <div class="widgets-wrap float-md-right">
+
+                        <div class="widget-header mr-3">
+                            <a href="{{ route('cart') }}" class="icon icon-sm rounded-circle border">
+                                <i class="fa fa-shopping-cart"></i>
+                            </a>
+                            <span class="badge badge-pill badge-danger notify">{{ \Cart::getContent()->count() }}</span>
+                        </div>
+
                         @guest
                             <div class="widget-header icontext">
                                 <div class="text">
@@ -56,13 +64,6 @@
                                 </div>
                             </div>
                         @else
-                            <div class="widget-header mr-3">
-                                <a href="{{ route('cart') }}" class="icon icon-sm rounded-circle border">
-                                    <i class="fa fa-shopping-cart"></i>
-                                </a>
-                                <span class="badge badge-pill badge-danger notify">{{ \Cart::getContent()->count() }}</span>
-                            </div>
-
                             <div class="widget-header icontext">
                                 <a href="{{ route('profile') }}" class="icon icon-sm rounded-circle border">
                                     <i class="fa fa-user"></i>

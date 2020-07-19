@@ -44,14 +44,19 @@
                                     </thead>
                                     <tbody>
                                     @foreach($items as $item)
+                                        @php
+                                            $product = $item->associatedModel;
+                                            $image = !empty($product->productImages->first()) ? asset('storage/'.$product->productImages->first()->path) : "https://via.placeholder.com/150"
+                                        @endphp
+
                                         <tr>
                                             <td>
                                                 <figure class="itemside">
                                                     <div class="aside">
-                                                        <img src="https://via.placeholder.com/150" class="img-sm">
+                                                        <img src="{{ $image }}" class="img-sm" alt="{{ $product->name }}">
                                                     </div>
                                                     <figcaption class="info">
-                                                        <a href="#" class="title text-dark">{{ Str::words($item->name,20) }}</a>
+                                                        <a href="{{ route('product.details', $product->slug) }}" class="title text-dark">{{ Str::words($item->name,20) }}</a>
                                                         <p class="text-muted small">
                                                         @foreach($item->attributes as $key  => $value)
                                                             <dl class="dlist-inline small">
@@ -62,7 +67,14 @@
                                                     </figcaption>
                                                 </figure>
                                             </td>
-                                            <td>{{ $item->quantity }}</td>
+                                            <td>
+                                                <a href="#" class="btn btn-sm btn-outline-light text-primary px-2 decrease-item" data-id="{{ $item->id }}" data-qty="{{ ($item->quantity) - 1 }}">-</a>
+
+                                                {{ $item->quantity }}
+
+                                                <a href="#" class="btn btn-sm btn-outline-light text-primary px-2 increase-item" data-id="{{ $item->id }}" data-qty="{{ ($item->quantity) + 1 }}">+</a>
+
+                                            </td>
                                             <td>
                                                 <div class="price-wrap">
                                                     <var class="price">{{ $item->price . config('shopping_cart.currency_symbol') }}</var>
@@ -79,8 +91,8 @@
                                 </table>
 
                                 <div class="card-body border-top">
-                                    <a href="{{ route('checkout') }}" class="btn btn-primary float-md-right">
-                                        Make Purchase <i class="fa fa-chevron-right"></i>
+                                    <a href="{{ route('orders.checkout') }}" class="btn btn-primary float-md-right">
+                                        Proceed to checkout <i class="fa fa-chevron-right"></i>
                                     </a>
                                     <a href="{{ route('home') }}" class="btn btn-light">
                                         <i class="fa fa-chevron-left"></i> Continue shopping
@@ -116,16 +128,16 @@
                     <div class="card">
                         <div class="card-body">
                             <dl class="dlist-align">
-                                <dt>Total price:</dt>
-                                <dd class="text-right">{{ \Cart::getSubTotal() }} {{ config('shopping_cart.currency_symbol') }}</dd>
+                                <dt>Subtotal :</dt>
+                                <dd class="text-right">{{ number_format(\Cart::getSubTotal()) }} {{ config('shopping_cart.currency_symbol') }}</dd>
                             </dl>
                             <dl class="dlist-align">
                                 <dt>Discount:</dt>
-                                <dd class="text-right">USD 658</dd>
+                                <dd class="text-right">0 {{ config('shopping_cart.currency_symbol') }}</dd>
                             </dl>
                             <dl class="dlist-align">
                                 <dt>Total:</dt>
-                                <dd class="text-right  h5"><strong>$1,650</strong></dd>
+                                <dd class="text-right  h5"><strong>{{ \Cart::getTotal() }} {{ config('shopping_cart.currency_symbol') }}</strong></dd>
                             </dl>
                             <hr>
                             <p class="text-center mb-3">

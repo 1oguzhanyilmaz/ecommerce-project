@@ -23,13 +23,9 @@ class CreateShipmentsTable extends Migration
             $table->integer('total_weight');
             $table->string('first_name');
             $table->string('last_name');
-            $table->string('address1')->nullable();
-            $table->string('address2')->nullable();
+            $table->string('address')->nullable();
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
-            $table->string('city_id')->nullable();
-            $table->string('province_id')->nullable();
-            $table->integer('postcode')->nullable();
             $table->unsignedBigInteger('shipped_by')->nullable();
             $table->datetime('shipped_at')->nullable();
             $table->softDeletes();

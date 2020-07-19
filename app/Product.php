@@ -70,6 +70,10 @@ class Product extends Model
                         ->where('parent_id', null);
     }
 
+    public function scopePopular($query, $limit = 10){
+
+    }
+
     public function priceLabel(){
         return ($this->variants->count() > 0) ? $this->variants->first()->price : $this->price;
     }

@@ -23,11 +23,11 @@ class LoginController extends Controller
             if (auth()->guard('admin')->attempt($credentials, \request()->has('remember'))){
                 return redirect()->route('admin.dashboard');
             }else{
-                return back()->withErrors('Login Failed');
+                return back()->with('error','Login Failed');
             }
         }
 
-        return view('admin.login');
+        return view('admin.auth.login');
     }
 
     public function logout(Request $request){

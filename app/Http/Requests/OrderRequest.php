@@ -13,7 +13,7 @@ class OrderRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,8 +23,29 @@ class OrderRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            //
+        $rules = [
+            'first_name' => 'required|string',
+            'last_name' => 'required|string',
+            'phone' => 'required',
+            'address' => 'required|string',
+            'email' => 'email',
+            'shipping_service' => 'required|string',
         ];
+
+        $shipTo = $this->get('ship_to');
+
+        if ($shipTo) {
+            $rules = array_merge(
+                $rules,
+                [
+                    'shipping_first_name' => 'required|string',
+                    'shipping_last_name' => 'required|string',
+                    'shipping_address' => 'required|string',
+                    'shipping_phone' => 'required',
+                ]
+            );
+        }
+
+        return $rules;
     }
 }

@@ -15,6 +15,7 @@ class Admin
      */
     public function handle($request, Closure $next){
         if (auth()->guard('admin')->check() && auth()->guard('admin')->user()->is_manager){
+            \Config::set('auth.defaults.guard', 'admin');
             return $next($request);
         }
 

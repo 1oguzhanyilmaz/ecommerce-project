@@ -198,189 +198,73 @@
                         </div>
                     </header>
 
-                    <article class="card card-product-list">
-                        <div class="row no-gutters">
-                            <aside class="col-md-3">
-                                <a href="#" class="img-wrap">
-                                    <span class="badge badge-danger"> NEW </span>
-                                    <img src="images/items/3.jpg">
-                                </a>
-                            </aside> <!-- col.// -->
-                            <div class="col-md-6">
-                                <div class="info-main">
-                                    <a href="#" class="h5 title"> Great product name goes here  </a>
-                                    <div class="rating-wrap mb-3">
-                                        <ul class="rating-stars">
-                                            <li style="width:80%" class="stars-active">
-                                                <i class="fa fa-star"></i> <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i> <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                            </li>
-                                            <li>
-                                                <i class="fa fa-star"></i> <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i> <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                            </li>
-                                        </ul>
-                                        <div class="label-rating">7/10</div>
-                                    </div> <!-- rating-wrap.// -->
+                    @if(count($products) > 0)
+                        @foreach($products as $product)
 
-                                    <p> Take it as demo specs, ipsum dolor sit amet, consectetuer adipiscing elit, Lorem ipsum dolor sit amet, consectetuer adipiscing elit, Ut wisi enim ad minim veniam </p>
-                                </div> <!-- info-main.// -->
-                            </div> <!-- col.// -->
-                            <aside class="col-sm-3">
-                                <div class="info-aside">
-                                    <div class="price-wrap">
-                                        <span class="price h5"> $140 </span>
-                                        <del class="price-old"> $198</del>
-                                    </div> <!-- info-price-detail // -->
-                                    <p class="text-success">Free shipping</p>
-                                    <br>
-                                    <p>
-                                        <a href="#" class="btn btn-primary btn-block"> Details </a>
-                                        <a href="#" class="btn btn-light btn-block"><i class="fa fa-heart"></i>
-                                            <span class="text">Add to wishlist</span>
+                            <article class="card card-product-list">
+                                <div class="row no-gutters">
+
+                                    <aside class="col-md-3">
+                                        <a href="#" class="img-wrap">
+                                            <span class="badge badge-danger"> NEW </span>
+                                            @if ($product->productImages->first())
+                                                <img src="{{ asset('storage/'.$product->productImages->first()->path) }}" alt="{{ $product->name }}">
+                                            @else
+                                                <img src="https://via.placeholder.com/150" alt="{{ $product->name }}">
+                                            @endif
                                         </a>
-                                    </p>
-                                </div> <!-- info-aside.// -->
-                            </aside> <!-- col.// -->
-                        </div> <!-- row.// -->
-                    </article>
+                                    </aside>
 
-                    <article class="card card-product-list">
-                        <div class="row no-gutters">
-                            <aside class="col-md-3">
-                                <a href="#" class="img-wrap"><img src="images/items/4.jpg"></a>
-                            </aside> <!-- col.// -->
-                            <div class="col-md-6">
-                                <div class="info-main">
-                                    <a href="#" class="h5 title"> Great product name goes here  </a>
-                                    <div class="rating-wrap mb-3">
-                                        <ul class="rating-stars">
-                                            <li style="width:80%" class="stars-active">
-                                                <i class="fa fa-star"></i> <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i> <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                            </li>
-                                            <li>
-                                                <i class="fa fa-star"></i> <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i> <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                            </li>
-                                        </ul>
-                                        <div class="label-rating">7/10</div>
-                                    </div> <!-- rating-wrap.// -->
+                                    <div class="col-md-6">
+                                        <div class="info-main">
+                                            <a href="{{ route('product.details', $product->slug) }}" class="h5 title">{{ ucfirst($product->name) }}</a>
+                                            <div class="rating-wrap mb-3">
+                                                <ul class="rating-stars">
+                                                    <li style="width:80%" class="stars-active">
+                                                        <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                    </li>
+                                                    <li>
+                                                        <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                    </li>
+                                                </ul>
+                                                <div class="label-rating">7/10</div>
+                                            </div>
 
-                                    <p> Lorem ipsum dolor sit amet, consectetuer adipiscing elit, Lorem ipsum dolor sit amet, consectetuer adipiscing elit, Ut wisi enim ad minim veniam </p>
-                                </div> <!-- info-main.// -->
-                            </div> <!-- col.// -->
-                            <aside class="col-sm-3">
-                                <div class="info-aside">
-                                    <div class="price-wrap">
-                                        <span class="price h5"> $56 </span>
-                                        <del class="price-old"> $85</del>
-                                    </div> <!-- info-price-detail // -->
-                                    <p class="text-success">Free shipping</p>
-                                    <br>
-                                    <p>
-                                        <a href="#" class="btn btn-primary btn-block"> Details </a>
-                                        <a href="#" class="btn btn-light btn-block"><i class="fa fa-heart"></i>
-                                            <span class="text">Add to wishlist</span></a>
-                                    </p>
-                                </div> <!-- info-aside.// -->
-                            </aside> <!-- col.// -->
-                        </div> <!-- row.// -->
-                    </article>
+                                            <p> {{ ($product->short_description) ? $product->short_description : 'Product Short Description' }}</p>
+                                        </div>
+                                    </div>
+                                    <aside class="col-sm-3">
+                                        <div class="info-aside">
+                                            <div class="price-wrap">
+                                                <span class="price h5"> {{ number_format($product->priceLabel()) }} </span>
+                                                <del class="price-old"> {{ number_format($product->priceLabel()) }}</del>
+                                            </div>
+                                            <p class="text-success">Free shipping</p>
+                                            <br>
+                                            <p>
+                                                <a href="{{ route('product.details', $product->slug) }}" class="btn btn-primary btn-block">Details</a>
 
-                    <article class="card card-product-list">
-                        <div class="row no-gutters">
-                            <aside class="col-md-3">
-                                <a href="#" class="img-wrap"><img src="images/items/5.jpg"></a>
-                            </aside> <!-- col.// -->
-                            <div class="col-md-6">
-                                <div class="info-main">
-                                    <a href="#" class="h5 title"> Great product name goes here  </a>
-                                    <div class="rating-wrap mb-3">
-                                        <ul class="rating-stars">
-                                            <li style="width:80%" class="stars-active">
-                                                <i class="fa fa-star"></i> <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i> <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                            </li>
-                                            <li>
-                                                <i class="fa fa-star"></i> <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i> <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                            </li>
-                                        </ul>
-                                        <div class="label-rating">7/10</div>
-                                    </div> <!-- rating-wrap.// -->
+                                                <a class="btn btn-light btn-block animate-left add-to-fav" title="Wishlist"  product-slug="{{ $product->slug }}" href="">
+                                                    <i class="fa fa-heart"></i>
+                                                    <span class="text">Add to wishlist</span>
+                                                </a>
 
-                                    <p> Lorem ipsum dolor sit amet, consectetuer adipiscing elit, Lorem ipsum dolor sit amet, consectetuer adipiscing elit, Ut wisi enim ad minim veniam </p>
-                                </div> <!-- info-main.// -->
-                            </div> <!-- col.// -->
-                            <aside class="col-sm-3">
-                                <div class="info-aside">
-                                    <div class="price-wrap">
-                                        <span class="price h5"> $56.00 </span>
-                                    </div> <!-- info-price-detail // -->
-                                    <p class="text-success">Free shipping</p>
-                                    <br>
-                                    <p>
-                                        <a href="#" class="btn btn-primary btn-block"> Details </a>
-                                        <a href="#" class="btn btn-light btn-block"><i class="fa fa-heart"></i>
-                                            <span class="text">Add to wishlist</span>
-                                        </a>
-                                    </p>
-                                </div> <!-- info-aside.// -->
-                            </aside> <!-- col.// -->
-                        </div> <!-- row.// -->
-                    </article>
+                                                <a class="btn btn-light btn-block animate-left add-to-cart" title="Wishlist"  product-slug="{{ $product->slug }}" href="" product-id="{{ $product->id }}" product-type="{{ $product->type }}" product-slug="{{ $product->slug }}">
+                                                    <i class="fa fa-shopping-cart"></i>
+                                                    <span class="text">Add to cart</span>
+                                                </a>
+                                            </p>
+                                        </div>
+                                    </aside>
+                                </div>
+                            </article>
 
-                    <article class="card card-product-list">
-                        <div class="row no-gutters">
-                            <aside class="col-md-3">
-                                <a href="#" class="img-wrap"><img src="images/items/6.jpg"></a>
-                            </aside> <!-- col.// -->
-                            <div class="col-md-6">
-                                <div class="info-main">
-                                    <a href="#" class="h5 title"> Product name can be here  </a>
-                                    <div class="rating-wrap mb-3">
-                                        <ul class="rating-stars">
-                                            <li style="width:80%" class="stars-active">
-                                                <i class="fa fa-star"></i> <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i> <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                            </li>
-                                            <li>
-                                                <i class="fa fa-star"></i> <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i> <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                            </li>
-                                        </ul>
-                                        <div class="label-rating">7/10</div>
-                                    </div> <!-- rating-wrap.// -->
-
-                                    <p> Lorem ipsum dolor sit amet, consectetuer adipiscing elit, Lorem ipsum dolor sit amet, consectetuer adipiscing elit, Ut wisi enim ad minim veniam </p>
-                                </div> <!-- info-main.// -->
-                            </div> <!-- col.// -->
-                            <aside class="col-sm-3">
-                                <div class="info-aside">
-                                    <div class="price-wrap">
-                                        <span class="price h5"> $62 </span>
-                                    </div> <!-- info-price-detail // -->
-                                    <p class="text-success">Free shipping</p>
-                                    <br>
-                                    <p>
-                                        <a href="#" class="btn btn-primary btn-block"> Details </a>
-                                        <a href="#" class="btn btn-light btn-block"><i class="fa fa-heart"></i>
-                                            <span class="text">Add to wishlist</span>
-                                        </a>
-                                    </p>
-                                </div> <!-- info-aside.// -->
-                            </aside> <!-- col.// -->
-                        </div> <!-- row.// -->
-                    </article>
+                        @endforeach
+                    @endif
 
                     <!-- ### Pagination ### -->
                     <nav aria-label="Page navigation sample">
@@ -392,6 +276,8 @@
                             <li class="page-item"><a class="page-link" href="#">Next</a></li>
                         </ul>
                     </nav>
+
+{{--                    {{ $products->links() }}--}}
                 </main>
             </div>
         </div>

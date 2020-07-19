@@ -17,98 +17,59 @@
             </header>
 
             <div class="row">
-                <div class="col-md-3">
-                    <div href="#" class="card card-product-grid">
-                        <a href="{{ route('product.details', $slug) }}" class="img-wrap">
-                            <img src="https://via.placeholder.com/150">
-                        </a>
-                        <figcaption class="info-wrap">
-                            <a href="#" class="title">Product Name</a>
+                @if(count($products) > 0)
+                    @foreach($products as $product)
+                        @php
+                            $product = (is_null($product->parent)) ? $product : '';
+                        @endphp
 
-                            <div class="rating-wrap">
-                                <ul class="rating-stars">
-                                    <li style="width:80%" class="stars-active">
-                                        <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
-                                    </li>
-                                    <li>
-                                        <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
-                                    </li>
-                                </ul>
-                                <span class="label-rating text-muted"> 34 reviws</span>
-                            </div>
-                            <div class="price mt-1">10 TL</div>
-                        </figcaption>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div href="#" class="card card-product-grid">
-                        <a href="#" class="img-wrap">
-                            <img src="https://via.placeholder.com/150">
-                        </a>
-                        <figcaption class="info-wrap">
-                            <a href="#" class="title">Product Name</a>
+                        <div class="col-md-3">
+                            <div href="#" class="card card-product-grid">
+                                <a href="{{ route('product.details', $product->slug) }}" class="img-wrap">
+                                    @if ($product->productImages->first())
+                                        <img src="{{ asset('storage/'.$product->productImages->first()->path) }}" alt="{{ $product->name }}">
+                                    @else
+                                        <img src="https://via.placeholder.com/150" alt="{{ $product->name }}">
+                                    @endif
+                                </a>
+                                <figcaption class="info-wrap">
+                                    <a href="{{ route('product.details', $product->slug) }}" class="title">{{ ucfirst($product->name) }}</a>
 
-                            <div class="rating-wrap">
-                                <ul class="rating-stars">
-                                    <li style="width:80%" class="stars-active">
-                                        <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
-                                    </li>
-                                    <li>
-                                        <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
-                                    </li>
-                                </ul>
-                                <span class="label-rating text-muted"> 34 reviws</span>
+                                    <div class="rating-wrap">
+                                        <ul class="rating-stars">
+                                            <li style="width:80%" class="stars-active">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                            </li>
+                                            <li>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                            </li>
+                                        </ul>
+                                        <div class="product-actions">
+                                            <a class="animate-left add-to-fav" title="Wishlist"  product-slug="{{ $product->slug }}" href="">
+                                                wishlist,
+                                            </a>
+                                            <a class="animate-top add-to-cart" title="Add To Cart" href="" product-id="{{ $product->id }}" product-type="{{ $product->type }}" product-slug="{{ $product->slug }}">
+                                                add,
+                                            </a>
+                                        </div>
+                                        <span class="label-rating text-muted"> 34 reviws</span>
+                                    </div>
+                                    <div class="price mt-1">{{ number_format($product->priceLabel()) }}</div>
+                                </figcaption>
                             </div>
-                            <div class="price mt-1">10 TL</div>
-                        </figcaption>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div href="#" class="card card-product-grid">
-                        <a href="#" class="img-wrap">
-                            <img src="https://via.placeholder.com/150">
-                        </a>
-                        <figcaption class="info-wrap">
-                            <a href="#" class="title">Product Name</a>
-
-                            <div class="rating-wrap">
-                                <ul class="rating-stars">
-                                    <li style="width:80%" class="stars-active">
-                                        <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
-                                    </li>
-                                    <li>
-                                        <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
-                                    </li>
-                                </ul>
-                                <span class="label-rating text-muted"> 34 reviws</span>
-                            </div>
-                            <div class="price mt-1">10 TL</div>
-                        </figcaption>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div href="#" class="card card-product-grid">
-                        <a href="#" class="img-wrap">
-                            <img src="https://via.placeholder.com/150">
-                        </a>
-                        <figcaption class="info-wrap">
-                            <a href="#" class="title">Product Name</a>
-
-                            <div class="rating-wrap">
-                                <ul class="rating-stars">
-                                    <li style="width:80%" class="stars-active">
-                                        <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
-                                    </li>
-                                    <li>
-                                        <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
-                                    </li>
-                                </ul>
-                                <span class="label-rating text-muted"> 34 reviws</span>
-                            </div>
-                            <div class="price mt-1">10 TL</div>
-                        </figcaption>
-                    </div>
-                </div>
+                        </div>
+                    @endforeach
+                @else
+                    <p class="text-center">There are no products in your database</p>
+                @endif
             </div>
 
         </div>
@@ -122,53 +83,35 @@
             <header class="section-heading">
                 <a href="#" class="btn btn-outline-primary float-right">See all</a>
                 <h3 class="section-title">Recommended</h3>
-            </header><!-- sect-heading -->
+            </header>
 
             <div class="row">
-                <div class="col-md-3">
-                    <div href="#" class="card card-product-grid">
-                        <a href="#" class="img-wrap">
-                            <img src="https://via.placeholder.com/150">
-                        </a>
-                        <figcaption class="info-wrap">
-                            <a href="#" class="title">Just another product name</a>
-                            <div class="price mt-1">$179.00</div>
-                        </figcaption>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div href="#" class="card card-product-grid">
-                        <a href="#" class="img-wrap">
-                            <img src="https://via.placeholder.com/150">
-                        </a>
-                        <figcaption class="info-wrap">
-                            <a href="#" class="title">Some item name here</a>
-                            <div class="price mt-1">$280.00</div>
-                        </figcaption>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div href="#" class="card card-product-grid">
-                        <a href="#" class="img-wrap">
-                            <img src="https://via.placeholder.com/150">
-                        </a>
-                        <figcaption class="info-wrap">
-                            <a href="#" class="title">Great product name here</a>
-                            <div class="price mt-1">$56.00</div>
-                        </figcaption>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div href="#" class="card card-product-grid">
-                        <a href="#" class="img-wrap">
-                            <img src="https://via.placeholder.com/150">
-                        </a>
-                        <figcaption class="info-wrap">
-                            <a href="#" class="title">Just another product name</a>
-                            <div class="price mt-1">$179.00</div>
-                        </figcaption>
-                    </div>
-                </div>
+                @if(count($products) > 0)
+                    @foreach($products as $product)
+                        @php
+                            $product = (is_null($product->parent)) ? $product : '';
+                        @endphp
+
+                        <div class="col-md-3">
+                            <div class="card card-product-grid">
+                                <a href="{{ route('product.details', $product->slug) }}" class="img-wrap">
+                                    @if ($product->productImages->first())
+                                        <img src="{{ asset('storage/'.$product->productImages->first()->path) }}" alt="{{ $product->name }}">
+                                    @else
+                                        <img src="https://via.placeholder.com/150" alt="{{ $product->name }}">
+                                    @endif
+                                </a>
+                                <figcaption class="info-wrap">
+                                    <a href="{{ route('product.details', $product->slug) }}" class="title">{{ ucfirst($product->name) }}</a>
+                                    <div class="price mt-1">{{ number_format($product->priceLabel()) }}</div>
+                                </figcaption>
+                            </div>
+                        </div>
+
+                    @endforeach
+                @else
+                    <p class="text-center">There are no products in your database</p>
+                @endif
             </div>
 
         </div>

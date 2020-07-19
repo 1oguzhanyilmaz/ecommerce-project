@@ -17,7 +17,7 @@ class Category extends Model
     }
 
     public function products(){
-        return $this->belongsToMany('App\Product', 'category_product');
+        return $this->belongsToMany('App\Product', 'category_product')->where('status', 1)->where('parent_id', null);
     }
 
     public function scopeParentCategories($query){

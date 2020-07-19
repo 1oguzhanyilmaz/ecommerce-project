@@ -33,13 +33,9 @@ class CreateOrdersTable extends Migration
             $table->text('note')->nullable();
             $table->string('customer_first_name');
             $table->string('customer_last_name');
-            $table->string('customer_address1')->nullable();
-            $table->string('customer_address2')->nullable();
+            $table->string('customer_address')->nullable();
             $table->string('customer_phone')->nullable();
             $table->string('customer_email')->nullable();
-            $table->string('customer_city_id')->nullable();
-            $table->string('customer_province_id')->nullable();
-            $table->integer('customer_postcode')->nullable();
             $table->string('shipping_courier')->nullable();
             $table->string('shipping_service_name')->nullable();
             $table->unsignedBigInteger('approved_by')->nullable();

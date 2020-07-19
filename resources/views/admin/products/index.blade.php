@@ -35,7 +35,7 @@
                                     <td>{{ $product->type }}</td>
                                     <td>{{ $product->name }}</td>
                                     <td>{{ number_format($product->price) }}</td>
-                                    <td>{{ $product->status_label() }}</td>
+                                    <td>{{ $product->statusLabel() }}</td>
                                     <td>
                                         <form action="{{ url('admin/products/'.$product->id) }}" method="POST" class="d-flex">
 

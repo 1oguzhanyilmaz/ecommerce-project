@@ -1,11 +1,33 @@
+<!doctype html>
+<html lang="en">
 
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ asset('admin/assets/vendor/bootstrap/css/bootstrap.min.css') }}">
+    <style>
+        body{
+            height: 100vh;
+            background-image: radial-gradient( circle farthest-corner at 10% 20%,  rgba(234,249,249,0.67) 0.1%, rgba(239,249,251,0.63) 90.1% );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body class="" style="height: 100vh;">
+<div class="container vh-100">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-6">
             <div class="card">
                 <div class="card-header">{{ __('Login') }}</div>
 
                 <div class="card-body">
+
+                    @include('alert-message')
+
                     <form method="POST" action="{{ route('admin.login') }}">
                         @csrf
 
@@ -54,12 +76,6 @@
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Login') }}
                                 </button>
-
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
-                                @endif
                             </div>
                         </div>
                     </form>
@@ -68,3 +84,29 @@
         </div>
     </div>
 </div>
+
+<script>
+    function ready(callback){
+        // in case the document is already rendered
+        if (document.readyState!='loading') callback();
+        // modern browsers
+        else if (document.addEventListener) document.addEventListener('DOMContentLoaded', callback);
+        // IE <= 8
+        else document.attachEvent('onreadystatechange', function(){
+                if (document.readyState=='complete') callback();
+        });
+    }
+
+    ready(function(){
+        setTimeout(function(){
+            var alert = document.getElementsByClassName("alert");
+            for(var i = 0; i < alert.length; i++){
+                alert[i].style.display = "none";
+            }
+        }, 5000);
+    });
+
+
+</script>
+</body>
+</html>
