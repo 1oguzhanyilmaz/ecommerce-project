@@ -4,6 +4,8 @@
 
     @include('front.partials.bread')
 
+    @include('alert-message')
+    
     <!-- ========================= SECTION CONTENT ========================= -->
     <section class="section-content padding-y">
         <div class="container">
@@ -240,8 +242,8 @@
                                     <aside class="col-sm-3">
                                         <div class="info-aside">
                                             <div class="price-wrap">
-                                                <span class="price h5"> {{ number_format($product->priceLabel()) }} </span>
-                                                <del class="price-old"> {{ number_format($product->priceLabel()) }}</del>
+                                                <span class="price h5"> {{ number_format($product->priceLabel()) }} {{ config('custom.currency_symbol') }}</span>
+                                                <del class="price-old"> {{ number_format($product->priceLabel()) }} {{ config('custom.currency_symbol') }}</del>
                                             </div>
                                             <p class="text-success">Free shipping</p>
                                             <br>

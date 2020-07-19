@@ -9,11 +9,11 @@
         </div>
     </section>
 
+    @include('alert-message')
+
     <!-- ========================= SECTION CONTENT ========================= -->
     <section class="section-content padding-y">
         <div class="container">
-
-            @include('alert-message')
 
             <form action="{{ route('orders.checkout.place.order') }}" method="POST">
                 @csrf
@@ -78,7 +78,7 @@
                                     @endphp
                                     <dl class="dlist-align">
                                         <dt>{{ $item->name }} <span class="product-quantity"> × {{ $item->quantity }}</span></dt>
-                                        <dd class="text-right">{{ number_format(\Cart::get($item->id)->getPriceSum()) }}</dd>
+                                        <dd class="text-right">{{ number_format(\Cart::get($item->id)->getPriceSum()) }} {{ config('custom.currency_symbol') }}</dd>
                                     </dl>
 
                                 @empty

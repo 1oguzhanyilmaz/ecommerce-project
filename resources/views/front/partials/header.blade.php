@@ -1,5 +1,4 @@
 <header class="section-header">
-
     <nav class="navbar navbar-dark navbar-expand p-0 bg-primary">
         <div class="container">
             <ul class="navbar-nav d-none d-md-flex mr-auto">
@@ -13,6 +12,7 @@
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"> English </a>
                     <ul class="dropdown-menu dropdown-menu-right" style="max-width: 100px;">
                         <li><a class="dropdown-item" href="#">Arabic</a></li>
+                        <li><a class="dropdown-item" href="#">Turkish</a></li>
                         <li><a class="dropdown-item" href="#">Russian </a></li>
                     </ul>
                 </li>

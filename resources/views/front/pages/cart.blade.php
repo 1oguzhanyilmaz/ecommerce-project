@@ -9,17 +9,11 @@
         </div>
     </section>
 
+    @include('alert-message')
+
     <!-- ========================= SECTION CONTENT ========================= -->
     <section class="section-content padding-y">
         <div class="container">
-
-            <div class="row">
-                <div class="col-sm-12">
-                    @if (Session::has('message'))
-                        <p class="alert alert-success">{{ Session::get('message') }}</p>
-                    @endif
-                </div>
-            </div>
 
             <div class="row">
                 @if ($items->isEmpty())
@@ -77,7 +71,7 @@
                                             </td>
                                             <td>
                                                 <div class="price-wrap">
-                                                    <var class="price">{{ $item->price . config('shopping_cart.currency_symbol') }}</var>
+                                                    <var class="price">{{ $item->price . config('custom.currency_symbol') }}</var>
                                                     <small class="text-muted">each</small>
                                                 </div>
                                             </td>
@@ -128,15 +122,15 @@
                         <div class="card-body">
                             <dl class="dlist-align">
                                 <dt>Subtotal :</dt>
-                                <dd class="text-right">{{ number_format(\Cart::getSubTotal()) }} {{ config('shopping_cart.currency_symbol') }}</dd>
+                                <dd class="text-right">{{ number_format(\Cart::getSubTotal()) }} {{ config('custom.currency_symbol') }}</dd>
                             </dl>
                             <dl class="dlist-align">
                                 <dt>Discount:</dt>
-                                <dd class="text-right">0 {{ config('shopping_cart.currency_symbol') }}</dd>
+                                <dd class="text-right">0 {{ config('custom.currency_symbol') }}</dd>
                             </dl>
                             <dl class="dlist-align">
                                 <dt>Total:</dt>
-                                <dd class="text-right  h5"><strong>{{ \Cart::getTotal() }} {{ config('shopping_cart.currency_symbol') }}</strong></dd>
+                                <dd class="text-right  h5"><strong>{{ \Cart::getTotal() }} {{ config('custom.currency_symbol') }}</strong></dd>
                             </dl>
                             <hr>
                             <p class="text-center mb-3">

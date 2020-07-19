@@ -94,8 +94,7 @@ class HomeController extends Controller
         ];
 
         \Cart::add($item);
-
-        \Session::flash('message', $product->name .' has been added to cart');
+        \Session::flash('success', $product->name .' has been added to cart');
 
         return response()->json([
             'qty' => $request->input('qty'),
@@ -124,7 +123,7 @@ class HomeController extends Controller
     public function clearCart(){
         \Cart::clear();
 
-        return redirect('/');
+        return redirect('/cart');
     }
 
     public function updateCart(Request $request){
@@ -147,7 +146,7 @@ class HomeController extends Controller
             \Cart::remove($cartId);
         }
 
-        \Session::flash('message', 'The cart has been updated');
+        \Session::flash('success', 'The cart has been updated');
 
         return response()->json([
             'qty' => $qty,

@@ -52,14 +52,9 @@
                                                 <i class="fa fa-star"></i>
                                             </li>
                                         </ul>
-                                        <div class="product-actions">
-                                            <a class="animate-top add-to-cart" title="Add To Cart" href="" product-id="{{ $product->id }}" product-type="{{ $product->type }}" product-slug="{{ $product->slug }}">
-                                                add,
-                                            </a>
-                                        </div>
                                         <span class="label-rating text-muted"> 34 reviws</span>
                                     </div>
-                                    <div class="price mt-1">{{ number_format($product->priceLabel()) }}</div>
+                                    <div class="price mt-1">{{ number_format($product->priceLabel()) }} {{ config('custom.currency_symbol') }}</div>
                                 </figcaption>
                             </div>
                         </div>
@@ -100,7 +95,7 @@
                                 </a>
                                 <figcaption class="info-wrap">
                                     <a href="{{ route('product.details', $product->slug) }}" class="title">{{ ucfirst($product->name) }}</a>
-                                    <div class="price mt-1">{{ number_format($product->priceLabel()) }}</div>
+                                    <div class="price mt-1">{{ number_format($product->priceLabel()) }} {{ config('custom.currency_symbol') }}</div>
                                 </figcaption>
                             </div>
                         </div>

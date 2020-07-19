@@ -33,6 +33,4 @@ return [
      * the configuration for cart events
      */
     'events' => null,
-
-    'currency_symbol' => '₺'
 ];

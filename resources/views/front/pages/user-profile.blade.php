@@ -9,6 +9,8 @@
         </div>
     </section>
 
+    @include('alert-message')
+
     <!-- ========================= SECTION CONTENT ========================= -->
     <section class="section-content padding-y">
         <div class="container">

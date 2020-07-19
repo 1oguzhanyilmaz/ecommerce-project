@@ -4,6 +4,8 @@
 
 {{--    @include('front.partials.bread')--}}
 
+    @include('alert-message')
+
     <div class="container">
         <div class="card my-4">
             <div class="row no-gutters">
@@ -71,7 +73,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <var class="price h4">{{ number_format($product->priceLabel()) }}</var>
+                            <var class="price h4">{{ number_format($product->priceLabel()) }} {{ config('custom.currency_symbol') }}</var>
                         </div>
 
                         <p>{{ ($product->short_description) ? $product->short_description : '' }}</p>
