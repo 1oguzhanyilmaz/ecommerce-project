@@ -1,12 +1,12 @@
 <div class="card card-default">
 
     <div class="card-header card-header-border-bottom">
-        <h2>{{ isset($option) ? 'Edit' : 'Add' }} Option</h2>
+        <h5>{{ isset($option) ? 'Edit' : 'Add' }} Option</h5>
     </div>
 
     <div class="card-body">
 
-        @include('admin.partials.flash', ['$errors' => $errors])
+        @include('alert-message', ['errors' => $errors])
 
         <?php $url = (isset($option)) ? 'admin/attributes/options/'.$option->id : 'admin/attributes/options/'.$attribute->id; ?>
 

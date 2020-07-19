@@ -117,7 +117,7 @@ class HomeController extends Controller
         if (\Cart::isEmpty()) {
             return redirect('/');
         }
-        return redirect()->back()->with('message', 'Item removed from cart successfully.');
+        return redirect()->back()->with('success', 'Item removed from cart successfully.');
     }
 
     public function clearCart(){
@@ -199,7 +199,7 @@ class HomeController extends Controller
 
     public function checkout(){
         if (\Cart::isEmpty()){
-            return redirect()->back()->with('message', 'Cart is empty !');
+            return redirect()->back()->with('success', 'Cart is empty !');
         }
 
         \Cart::removeConditionsByType('shipping');
@@ -272,7 +272,7 @@ class HomeController extends Controller
         if ($order){
             \Cart::clear();
             $this->_sendEmailOrderReceived($order);
-            \Session::flash('message', 'Thank you. Your order has been received!');
+            \Session::flash('success', 'Thank you. Your order has been received!');
 
             return redirect('orders/received/'.$order->id);
         }

@@ -1,7 +1,7 @@
 <div class="card card-default">
 
     <div class="card-header card-header-border-bottom">
-        <h2>Product Menus</h2>
+        <h5>Product Menus</h5>
     </div>
 
     <div class="card-body">

@@ -49,58 +49,51 @@
         </script>
     @endif
 
-    <div class="content">
-        <div class="row">
+    <div class="card card-default">
 
-            <div class="col-lg-12">
+        <div class="card-header card-header-border-bottom">
+            <h5>Roles and Permissions</h5>
+        </div>
 
-                <div class="card card-default">
+        <div class="card-body">
 
-                    <div class="card-header card-header-border-bottom">
-                        <h2>Roles and Permissions</h2>
-                    </div>
+            <div class="ajaxMessage"></div>
 
-                    <div class="card-body">
+            @include('alert-message')
 
-                        <div class="ajaxMessage"></div>
-                        @include('admin.partials.flash')
+            <div id="accordion-role-permission" class="accordion accordion-bordered ">
+                @forelse ($roles as $role)
+                    <form action="{{ route('roles.update', $role->id) }}" method="POST" class="m-b">
+                        @csrf
+                        @method('PUT')
 
-                        <div id="accordion-role-permission" class="accordion accordion-bordered ">
-                            @forelse ($roles as $role)
-                                <form action="{{ route('roles.update', $role->id) }}" method="POST" class="m-b">
-                                    @csrf
-                                    @method('PUT')
+                        @if($role->name === 'Admin')
+                            @include('admin.roles._permissions', [
+                                    'title' => $role->name .' Permissions',
+                                    'options' => ['disabled'],
+                                    'showButton' => true
+                                ])
+                        @else
+                            @include('admin.roles._permissions', [
+                                    'title' => $role->name .' Permissions',
+                                    'model' => $role,
+                                    'showButton' => true
+                                ])
+                        @endif
+                    </form>
 
-                                    @if($role->name === 'Admin')
-                                        @include('admin.roles._permissions', [
-                                                'title' => $role->name .' Permissions',
-                                                'options' => ['disabled'],
-                                                'showButton' => true
-                                            ])
-                                    @else
-                                        @include('admin.roles._permissions', [
-                                                'title' => $role->name .' Permissions',
-                                                'model' => $role,
-                                                'showButton' => true
-                                            ])
-                                    @endif
-                                </form>
-
-                            @empty
-                                <p>No Roles defined, please run <code>php artisan db:seed</code> to seed some dummy data.</p>
-                            @endforelse
-                        </div>
-                    </div>
-
-                    @can('add_roles')
-                        <div class="card-footer text-right">
-                            <a href="#" class="btn btn-success pull-right" data-toggle="modal" data-target="#roleModal">
-                                <i class="glyphicon glyphicon-plus"></i> New Role</a>
-                        </div>
-                    @endcan
-                </div>
+                @empty
+                    <p>No Roles defined, please run <code>php artisan db:seed</code> to seed some dummy data.</p>
+                @endforelse
             </div>
         </div>
+
+        @can('add_roles')
+            <div class="card-footer text-right">
+                <a href="#" class="btn btn-success pull-right" data-toggle="modal" data-target="#roleModal">
+                    <i class="glyphicon glyphicon-plus"></i> New Role</a>
+            </div>
+        @endcan
     </div>
 @endsection
 
