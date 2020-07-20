@@ -25,6 +25,15 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'],function () {
         Route::put('attributes/options/{optionID}', 'AttributeController@update_option')->name('attributes.update_option');
         Route::delete('attributes/options/{optionID}', 'AttributeController@remove_option')->name('attributes.remove_option');
 
+        Route::get('orders/trashed', 'OrderController@trashed')->name('orders.trashed');
+        Route::resource('orders', 'OrderController');
+        Route::get('orders/{orderID}/cancel', 'OrderController@cancel')->name('orders.cancel');
+        Route::put('orders/cancel/{orderID}', 'OrderController@doCancel')->name('orders.do.cancel');
+        Route::post('orders/complete/{orderID}', 'OrderController@doComplete')->name('orders.do.complete');
+        Route::get('orders/restore/{orderID}', 'OrderController@restore')->name('orders.restore');
+
+        Route::resource('shipments', 'ShipmentController');
+
         Route::resource('roles', 'RoleController');
         Route::resource('users', 'UserController');
     });

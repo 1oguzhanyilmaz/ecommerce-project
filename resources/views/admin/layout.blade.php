@@ -57,6 +57,18 @@
         return confirm("Do you want to remove this?");
     });
 
+    $("a.delete").on("click", function () {
+        event.preventDefault();
+        var orderId = $(this).attr('order-id');
+        if (confirm("Do you want to remove this?")) {
+            document.getElementById('delete-form-' + orderId ).submit();
+        }
+    });
+
+    $(".restore").on("click", function () {
+        return confirm("Do you want to restore this?");
+    });
+
     function showHideConfigurableAttributes() {
         var productType = $(".product-type").val();
 
