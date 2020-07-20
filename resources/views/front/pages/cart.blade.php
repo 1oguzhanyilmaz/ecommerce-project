@@ -1,5 +1,7 @@
 @extends('front.layout')
 
+@section('title', 'Cart')
+
 @section('content')
 
     <!-- ========================= SECTION Breadcrumb ========================= -->

@@ -1,5 +1,7 @@
 @extends('front.layout')
 
+@section('title', 'Register')
+
 @section('content')
 
     <!-- ========================= SECTION CONTENT ========================= -->

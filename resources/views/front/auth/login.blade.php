@@ -1,5 +1,7 @@
 @extends('front.layout')
 
+@section('title', 'Login')
+
 @section('content')
     <!-- ========================= SECTION CONTENT ========================= -->
     <section class="section-content " style="min-height:84vh">

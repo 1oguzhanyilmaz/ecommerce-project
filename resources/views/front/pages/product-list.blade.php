@@ -1,11 +1,13 @@
 @extends('front.layout')
 
+@section('title', 'Product List')
+
 @section('content')
 
     @include('front.partials.bread')
 
     @include('alert-message')
-    
+
     <!-- ========================= SECTION CONTENT ========================= -->
     <section class="section-content padding-y">
         <div class="container">

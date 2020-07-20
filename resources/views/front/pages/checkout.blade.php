@@ -1,5 +1,7 @@
 @extends('front.layout')
 
+@section('title', 'Checkout')
+
 @section('content')
 
     <!-- ========================= SECTION Breadcrumb ========================= -->

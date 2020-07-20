@@ -1,5 +1,7 @@
 @extends('front.layout')
 
+@section('title', $product->name)
+
 @section('content')
 
 {{--    @include('front.partials.bread')--}}

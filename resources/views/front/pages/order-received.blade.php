@@ -1,5 +1,7 @@
 @extends('front.layout')
 
+@section('title', 'Order Details')
+
 @section('content')
 
     @include('front.partials.navbar')
