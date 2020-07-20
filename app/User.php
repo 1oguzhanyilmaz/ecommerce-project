@@ -46,4 +46,8 @@ class User extends Authenticatable
     public function userDetail(){
         return $this->hasOne('App\UserDetail');
     }
+
+    public function orders(){
+        return $this->hasMany('App\Order');
+    }
 }

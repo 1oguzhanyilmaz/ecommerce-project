@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exceptions\OutOfStockException;
 use App\Http\Controllers\Controller;
 use App\Order;
 use App\OrderItem;
@@ -15,15 +16,16 @@ class OrderController extends Controller
 
         $orders = Order::orderBy('created_at','DESC');
 
+        $status = $request->input('status');
+        if ($status && in_array($status, array_keys($statuses))){
+            $orders = $orders->orWhere('status', '=',$status);
+        }
+
         $q = $request->input('q');
         if ($q){
             $orders = $orders->where('code','like','%'.$q.'%')
                         ->orWhere('customer_first_name','like','%'.$q.'%')
                         ->orWhere('customer_last_name','like','%'.$q.'%');
-        }
-
-        if ($request->input('status') && in_array($request->input('status'), array_keys(Order::STATUSES))){
-            $orders = $orders->where('status', '=', $request->input('status'));
         }
 
         $startDate = $request->input('start');

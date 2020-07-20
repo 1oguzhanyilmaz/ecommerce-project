@@ -57,7 +57,7 @@ Route::get('/cart/clear', 'HomeController@clearCart')->name('cart.clear');
 Route::post('/cart/item/update', 'HomeController@updateCart')->name('update.cart');
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::get('/profile', 'HomeController@profile')->name('profile');
+    Route::match(['get','post'],'/profile', 'HomeController@profile')->name('profile');
     Route::get('/orders/checkout', 'HomeController@checkout')->name('orders.checkout');
     Route::post('/orders/set-shipping', 'HomeController@setShipping')->name('orders.set.shipping');
     Route::post('/orders/checkout', 'HomeController@placeOrder')->name('orders.checkout.place.order');

@@ -1,5 +1,7 @@
 @extends('front.layout')
 
+@section('title', 'Profile')
+
 @section('content')
 
     <!-- ========================= Section breadcrumb ========================= -->
@@ -9,120 +11,158 @@
         </div>
     </section>
 
-    @include('alert-message')
-
     <!-- ========================= SECTION CONTENT ========================= -->
     <section class="section-content padding-y">
         <div class="container">
 
             <div class="row">
-                <aside class="col-md-3">
-                    <ul class="list-group">
-                        <a class="list-group-item active" href="#"> Account overview  </a>
-                        <a class="list-group-item" href="#"> My Orders </a>
-                        <a class="list-group-item" href="#"> Return and refunds </a>
-                        <a class="list-group-item" href="#">Settings </a>
-                        <a class="list-group-item" href="#"> My Selling Items </a>
-                        <a class="list-group-item" href="#"> Received orders </a>
-                    </ul>
-                </aside>
 
-                <main class="col-md-9">
+                <div class="col-3">
+                    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                        <a class="nav-link active" data-toggle="pill" href="#overview" role="tab" aria-controls="overview" aria-selected="true">Account overview</a>
 
-                    <article class="card mb-3">
-                        <div class="card-body">
+                        <a class="nav-link" data-toggle="pill" href="#orders" role="tab" aria-controls="orders" aria-selected="false">My Orders</a>
 
-                            <figure class="icontext">
-                                <div class="icon">
-                                    <img class="rounded-circle img-sm border" src="images/avatars/avatar3.jpg">
+                        <a class="nav-link" data-toggle="pill" href="#settings" role="tab" aria-controls="settings" aria-selected="false">Settings</a>
+                    </div>
+                </div>
+
+                <div class="col-9">
+
+                    @include('alert-message')
+
+                    <div class="tab-content" id="v-pills-tabContent">
+
+                        <div class="tab-pane fade show active" id="overview" role="tabpanel">
+                            <article class="card mb-3">
+                                <div class="card-body">
+
+                                    <figure class="icontext">
+                                        <div class="icon">
+                                            <img class="rounded-circle img-sm border" src="https://via.placeholder.com/75">
+                                        </div>
+                                        <div class="text d-flex flex-column">
+                                            <strong> {{ ucfirst($user->name) }} </strong>
+                                            <span>{{ $user->email }}</span>
+                                            <span class="text-muted">{{ $user->created_at }}</span>
+                                        </div>
+                                    </figure>
+                                    <hr>
+                                    @if($user->userDetail->address1)
+                                        <p>
+                                            <i class="fa fa-map-marker text-muted"></i> &nbsp; My address:
+                                            <br>
+                                            {{ $user->userDetail->address1 }}
+                                        </p>
+                                    @endif
+
+
+                                    <article class="card-group">
+                                        <figure class="card bg">
+                                            <div class="p-3">
+                                                <h5 class="card-title">{{ $user->orders->count() }}</h5>
+                                                <span>Orders</span>
+                                            </div>
+                                        </figure>
+                                        <figure class="card bg">
+                                            <div class="p-3">
+                                                <h5 class="card-title">5</h5>
+                                                <span>Wishlists</span>
+                                            </div>
+                                        </figure>
+                                        <figure class="card bg">
+                                            <div class="p-3">
+                                                <h5 class="card-title">12</h5>
+                                                <span>Awaiting delivery</span>
+                                            </div>
+                                        </figure>
+                                        <figure class="card bg">
+                                            <div class="p-3">
+                                                <h5 class="card-title">50</h5>
+                                                <span>Delivered items</span>
+                                            </div>
+                                        </figure>
+                                    </article>
+
+
                                 </div>
-                                <div class="text">
-                                    <strong> Mr. Jackson Someone </strong> <br>
-                                    myloginname@gmail.com <br>
-                                    <a href="#">Edit</a>
-                                </div>
-                            </figure>
-                            <hr>
-                            <p>
-                                <i class="fa fa-map-marker text-muted"></i> &nbsp; My address:
-                                <br>
-                                Tashkent city, Street name, Building 123, House 321 &nbsp
-                                <a href="#" class="btn-link"> Edit</a>
-                            </p>
-
-                            <article class="card-group">
-                                <figure class="card bg">
-                                    <div class="p-3">
-                                        <h5 class="card-title">38</h5>
-                                        <span>Orders</span>
-                                    </div>
-                                </figure>
-                                <figure class="card bg">
-                                    <div class="p-3">
-                                        <h5 class="card-title">5</h5>
-                                        <span>Wishlists</span>
-                                    </div>
-                                </figure>
-                                <figure class="card bg">
-                                    <div class="p-3">
-                                        <h5 class="card-title">12</h5>
-                                        <span>Awaiting delivery</span>
-                                    </div>
-                                </figure>
-                                <figure class="card bg">
-                                    <div class="p-3">
-                                        <h5 class="card-title">50</h5>
-                                        <span>Delivered items</span>
-                                    </div>
-                                </figure>
                             </article>
-
-
                         </div>
-                    </article>
 
-                    <article class="card  mb-3">
-                        <div class="card-body">
-                            <h5 class="card-title mb-4">Recent orders </h5>
+                        <div class="tab-pane fade" id="orders" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                            <article class="card  mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title mb-4">Orders </h5>
 
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <figure class="itemside  mb-3">
-                                        <div class="aside"><img src="images/items/1.jpg" class="border img-sm"></div>
-                                        <figcaption class="info">
-                                            <time class="text-muted"><i class="fa fa-calendar-alt"></i> 12.09.2019</time>
-                                            <p>Great item name goes here </p>
-                                            <span class="text-warning">Pending</span>
-                                        </figcaption>
-                                    </figure>
-                                </div> <!-- col.// -->
-                                <div class="col-md-6">
-                                    <figure class="itemside  mb-3">
-                                        <div class="aside"><img src="images/items/2.jpg" class="border img-sm"></div>
-                                        <figcaption class="info">
-                                            <time class="text-muted"><i class="fa fa-calendar-alt"></i> 12.09.2019</time>
-                                            <p>Machine for kitchen to blend </p>
-                                            <span class="text-success">Departured</span>
-                                        </figcaption>
-                                    </figure>
-                                </div> <!-- col.// -->
-                                <div class="col-md-6">
-                                    <figure class="itemside mb-3">
-                                        <div class="aside"><img src="images/items/3.jpg" class="border img-sm"></div>
-                                        <figcaption class="info">
-                                            <time class="text-muted"><i class="fa fa-calendar-alt"></i> 12.09.2019</time>
-                                            <p>Ladies bag original leather </p>
-                                            <span class="text-success">Shipped  </span>
-                                        </figcaption>
-                                    </figure>
+                                        @forelse($user->orders as $order)
+                                            <div class="row my-4 justify-content-between align-items-center">
+
+                                                <div class="col-md-2 ">On {{ $order->created_at }}</div>
+
+                                                <div class="col-md-10  d-flex align-items-center">
+
+                                                    @foreach($order->orderItems as $item)
+                                                        <div class="mb-3 d-flex mx-2">
+                                                            <div class="aside">
+                                                                @if ($item->product->productImages->first())
+                                                                    <img src="{{ asset('storage/'.$item->product->productImages->first()->path) }}" alt="{{ $item->product->name }}" class="border img-sm">
+                                                                @else
+                                                                    <img src="https://via.placeholder.com/150" alt="{{ $item->product->name }}">
+                                                                @endif
+                                                            </div>
+                                                            <div class="info ml-2">
+                                                                <time class="text-muted">
+                                                                    <i class="fa fa-calendar-alt"></i>
+                                                                    {{ $item->qty }} x
+                                                                </time>
+                                                                <p>{{ ucfirst($item->product->name) }} </p>
+                                                                <span class="text-warning">{{ $order->shipment->status }}</span>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+
+                                                </div>
+
+                                            </div>
+                                        @empty
+                                            You haven't ordered yet
+                                        @endforelse
+
+
+                                    <a href="#" class="btn btn-outline-primary"> See all orders  </a>
                                 </div>
-                            </div>
-
-                            <a href="#" class="btn btn-outline-primary"> See all orders  </a>
+                            </article>
                         </div>
-                    </article>
 
-                </main>
+                        <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
+                            <form action="{{ route('profile') }}" method="POST">
+                                @csrf
+
+                                <div class="form-group">
+                                    <label for="address1">Address 1:</label>
+                                    <textarea class="form-control" name="address1">{{ $user->userDetail->address1 }}</textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="address1">Address 2:</label>
+                                    <textarea class="form-control" name="address2">{{ $user->userDetail->address2 }}</textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="phone1">Phone 1:</label>
+                                    <input type="text" class="form-control" name="phone1" placeholder="Enter Phone 1" value="{{ $user->userDetail->phone1 }}">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="phone2">Phone 2:</label>
+                                    <input type="text" class="form-control" name="phone2" placeholder="Enter Phone 2" value="{{ $user->userDetail->phone2 }}">
+                                </div>
+
+                                <button type="submit" class="btn btn-primary px-4 float-right">Save</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>

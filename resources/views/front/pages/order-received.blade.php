@@ -8,6 +8,8 @@
     <section class="section-content">
         <div class="container">
 
+            @include('alert-message')
+
             <h1 class="cart-heading mt-4">Your Order:</h1>
 
             <hr>

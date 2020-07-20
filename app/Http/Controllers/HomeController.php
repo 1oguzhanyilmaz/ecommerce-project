@@ -510,8 +510,18 @@ class HomeController extends Controller
     #############################################################################################
     #############################################################################################
     ### Profile
-    public function profile(){
-        return view('front.pages.user-profile');
+    public function profile(Request $request){
+
+        if ($request->isMethod('post')){
+            auth()->user()->userDetail->update($request->all());
+
+            \Session::flash('success', 'The information has been successfully updated.');
+            return redirect()->back();
+        }
+
+        $user = auth()->user();
+
+        return view('front.pages.user-profile', compact('user'));
     }
 
     #############################################################################################
