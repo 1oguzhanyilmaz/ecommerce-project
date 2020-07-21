@@ -31,9 +31,9 @@
                 </div>
 
                 <div class="col-lg-6 col-12 col-sm-12">
-                    <form action="#" class="search">
+                    <form action="{{ url('products') }}" method="GET">
                         <div class="input-group w-100">
-                            <input type="text" class="form-control" placeholder="Search">
+                            <input type="text" class="form-control" name="q" value="{{ isset($q) ? $q : null }}" placeholder="I am Searching for . . ." >
                             <div class="input-group-append">
                                 <button class="btn btn-primary" type="submit">
                                     <i class="fa fa-search"></i>

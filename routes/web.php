@@ -45,23 +45,22 @@ Auth::routes();
 Route::get('/', 'HomeController@home')->name('home');
 
 // Products
-Route::get('/products', 'HomeController@products')->name('products');
-Route::get('/products/{slug}', 'HomeController@productDetails')->name('product.details');
-Route::get('/products/category/{slug}', 'HomeController@categoryProducts')->name('category.products');
+Route::get('/products', 'ProductController@products')->name('products');
+Route::get('/products/{slug}', 'ProductController@productDetails')->name('product.details');
+Route::get('/products/category/{slug}', 'ProductController@categoryProducts')->name('category.products');
 
-Route::post('/product/add/cart', 'HomeController@addToCart')->name('product.add.cart');
-
-Route::get('/cart', 'HomeController@cart')->name('cart');
-Route::get('/cart/item/{itemId}/remove', 'HomeController@removeItem')->name('cart.remove');
-Route::get('/cart/clear', 'HomeController@clearCart')->name('cart.clear');
-Route::post('/cart/item/update', 'HomeController@updateCart')->name('update.cart');
+Route::post('/product/add/cart', 'CartController@addToCart')->name('product.add.cart');
+Route::get('/cart', 'CartController@cart')->name('cart');
+Route::get('/cart/item/{itemId}/remove', 'CartController@removeItem')->name('cart.remove');
+Route::get('/cart/clear', 'CartController@clearCart')->name('cart.clear');
+Route::post('/cart/item/update', 'CartController@updateCart')->name('update.cart');
 
 Route::group(['middleware' => ['auth']], function () {
     Route::match(['get','post'],'/profile', 'HomeController@profile')->name('profile');
-    Route::get('/orders/checkout', 'HomeController@checkout')->name('orders.checkout');
-    Route::post('/orders/set-shipping', 'HomeController@setShipping')->name('orders.set.shipping');
-    Route::post('/orders/checkout', 'HomeController@placeOrder')->name('orders.checkout.place.order');
-    Route::get('/orders/received/{orderID}', 'HomeController@received')->name('orders.received');
-    Route::get('/orders', 'HomeController@orders')->name('orders');
-    Route::get('/orders/{orderID}', 'HomeController@orderShow')->name('order.show');
+    Route::get('/orders/checkout', 'OrderController@checkout')->name('orders.checkout');
+    Route::post('/orders/set-shipping', 'OrderController@setShipping')->name('orders.set.shipping');
+    Route::post('/orders/checkout', 'OrderController@placeOrder')->name('orders.checkout.place.order');
+    Route::get('/orders/received/{orderID}', 'OrderController@received')->name('orders.received');
+    Route::get('/orders', 'OrderController@orders')->name('orders');
+    Route::get('/orders/{orderID}', 'OrderController@orderShow')->name('order.show');
 });

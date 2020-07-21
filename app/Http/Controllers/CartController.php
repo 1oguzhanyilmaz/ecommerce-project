@@ -9,15 +9,49 @@ use Illuminate\Support\Facades\Session;
 
 class CartController extends Controller
 {
-    public function __construct(){
-        parent::__construct();
+    public function addToCart(Request $request){
+        $product = Product::findOrFail($request->input('product_id'));
+        $slug = $product->slug;
+
+        // check if the product is simple or configurable
+
+        // check if the product is already added to the cart
+
+        $attributes = [
+            'size' => 'L',
+            'color' => 'blue'
+        ];
+
+        $itemQuantity = $this->_getItemQuantity(md5($product->id)) + $request->input('qty');
+        if ($this->_checkProductInventory($product, $itemQuantity)) {
+            dd($product->name . ' Out of Stock');
+        }
+
+        $item = [
+            'id' => md5($product->id),
+            'name' => $product->name,
+            'price' => $product->price,
+            'quantity' => $request->input('qty'),
+            'attributes' => $attributes,
+            'associatedModel' => $product,
+        ];
+
+        \Cart::add($item);
+        \Session::flash('success', $product->name .' has been added to cart');
+
+        return response()->json([
+            'qty' => $request->input('qty'),
+        ]);
     }
 
-    public function getCart(){
+    public function cart(){
         $items = \Cart::getContent();
-        $cartCount = \Cart::getContent()->count();
 
-        return view('front.pages.cart', compact('items','cartCount'));
+        $breadcrumbs = [
+            'notNecessary' => 'cart',
+        ];
+
+        return view('front.pages.cart', compact('items','breadcrumbs'));
     }
 
     public function removeItem($itemId){
@@ -26,100 +60,48 @@ class CartController extends Controller
         if (\Cart::isEmpty()) {
             return redirect('/');
         }
-        return redirect()->back()->with('message', 'Item removed from cart successfully.');
+        return redirect()->back()->with('success', 'Item removed from cart successfully.');
     }
 
     public function clearCart(){
         \Cart::clear();
 
-        return redirect('/');
+        return redirect('/cart');
     }
 
-    public function store(Request $request){
-        $params = $request->except('_token');
+    public function updateCart(Request $request){
+        $qty = $request->input('qty');
+        $cartId = $request->input('id');
 
-        $product = Product::findOrFail($params['product_id']);
-        $slug = $product->slug;
-
-        $attributes = [];
-        if ($product->configurable()) {
-            $product = Product::from('products as p')
-                ->whereRaw("p.parent_id = :parent_product_id
-							and (select pav.text_value
-									from product_attribute_values pav
-									join attributes a on a.id = pav.attribute_id
-									where a.code = :size_code
-									and pav.product_id = p.id
-									limit 1
-								) = :size_value
-							and (select pav.text_value
-									from product_attribute_values pav
-									join attributes a on a.id = pav.attribute_id
-									where a.code = :color_code
-									and pav.product_id = p.id
-									limit 1
-								) = :color_value
-								", [
-                    'parent_product_id' => $product->id,
-                    'size_code' => 'size',
-                    'size_value' => $params['size'],
-                    'color_code' => 'color',
-                    'color_value' => $params['color'],
-                ])->firstOrFail();
-
-            $attributes['size'] = $params['size'];
-            $attributes['color'] = $params['color'];
+        $cartItem = $this->_getCartItem($cartId);
+        if ($this->_checkProductInventory($cartItem->associatedModel, $qty)) {
+            dd($cartItem->associatedModel->name . ' Out of Stock');
         }
 
-        $itemQuantity =  $this->_getItemQuantity(md5($product->id)) + $params['qty'];
-        $this->_checkProductInventory($product, $itemQuantity);
-
-        $item = [
-            'id' => md5($product->id),
-            'name' => $product->name,
-            'price' => $product->price,
-            'quantity' => $params['qty'],
-            'attributes' => $attributes,
-            'associatedModel' => $product,
-        ];
-
-        Cart::add($item);
-
-        Session::flash('success', 'Product '. $item['name'] .' has been added to cart');
-        return redirect('/product/'. $slug);
-    }
-
-    public function update(Request $request){
-        $params = $request->except('_token');
-
-        if ($items = $params['items']) {
-            foreach ($items as $cartID => $item) {
-                $cartItem = $this->_getCartItem($cartID);
-                $this->_checkProductInventory($cartItem->associatedModel, $item['quantity']);
-
-                Cart::update($cartID, [
-                    'quantity' => [
-                        'relative' => false,
-                        'value' => $item['quantity'],
-                    ],
-                ]);
-            }
-
-            Session::flash('success', 'The cart has been updated');
-            return redirect('carts');
+        if ($qty > 0){
+            \Cart::update($cartId, [
+                'quantity' => [
+                    'relative' => false,
+                    'value' => $qty,
+                ],
+            ]);
+        }else{
+            \Cart::remove($cartId);
         }
-    }
 
-    #############################################
-    ##################################
-    ######################
+        \Session::flash('success', 'The cart has been updated');
+
+        return response()->json([
+            'qty' => $qty,
+        ]);
+    }
 
     private function _getItemQuantity($itemId){
         $items = \Cart::getContent();
         $itemQuantity = 0;
-        if ($items) {
-            foreach ($items as $item) {
-                if ($item->id == $itemId) {
+        if ($items){
+            foreach ($items as $item){
+                if ($item->id == $itemId){
                     $itemQuantity = $item->quantity;
                     break;
                 }
@@ -129,15 +111,15 @@ class CartController extends Controller
         return $itemQuantity;
     }
 
-    private function _getCartItem($cartID){
-        $items = Cart::getContent();
-
-        return $items[$cartID];
+    private function _checkProductInventory($product, $itemQuantity){
+        if ($itemQuantity > $product->productInventory->qty){
+            return true;
+        }
     }
 
-    private function _checkProductInventory($product, $itemQuantity){
-        if ($product->productInventory->qty < $itemQuantity) {
-            throw new \App\Exceptions\OutOfStockException('The product '. $product->sku .' is out of stock');
-        }
+    private function _getCartItem($cartId){
+        $items = \Cart::getContent();
+
+        return $items[$cartId];
     }
 }

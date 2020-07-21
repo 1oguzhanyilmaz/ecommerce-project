@@ -27,93 +27,82 @@
 
                             <div class="filter-content collapse show" id="collapse_1" style="">
                                 <div class="card-body">
-                                    <form class="pb-3">
+
+                                    <form action="{{ url('products') }}" method="GET" class="pb-3">
                                         <div class="input-group">
-                                            <input type="text" class="form-control" placeholder="Search">
+                                            <input type="text" class="form-control" name="q" placeholder="Search">
                                             <div class="input-group-append">
-                                                <button class="btn btn-light" type="button"><i class="fa fa-search"></i></button>
+                                                <button class="btn btn-light" type="submit"><i class="fa fa-search"></i></button>
                                             </div>
                                         </div>
                                     </form>
 
                                     <ul class="list-menu">
-                                        <li><a href="#">People  </a></li>
                                         <li><a href="#">Watches </a></li>
                                         <li><a href="#">Cinema  </a></li>
-                                        <li><a href="#">Clothes  </a></li>
-                                        <li><a href="#">Home items </a></li>
-                                        <li><a href="#">Animals</a></li>
-                                        <li><a href="#">People </a></li>
                                     </ul>
 
                                 </div>
                             </div>
                         </article>
 
-                        <article class="filter-group">
-                            <header class="card-header">
-                                <a href="#" data-toggle="collapse" data-target="#collapse_2" aria-expanded="true" class="">
-                                    <i class="icon-control fa fa-chevron-down"></i>
-                                    <h6 class="title">Brands </h6>
-                                </a>
-                            </header>
 
-                            <div class="filter-content collapse show" id="collapse_2" style="">
-                                <div class="card-body">
-                                    <label class="custom-control custom-checkbox">
-                                        <input type="checkbox" checked="" class="custom-control-input">
-                                        <div class="custom-control-label">Mercedes
-                                            <b class="badge badge-pill badge-light float-right">120</b>  </div>
-                                    </label>
-                                    <label class="custom-control custom-checkbox">
-                                        <input type="checkbox" checked="" class="custom-control-input">
-                                        <div class="custom-control-label">Toyota
-                                            <b class="badge badge-pill badge-light float-right">15</b>  </div>
-                                    </label>
-                                    <label class="custom-control custom-checkbox">
-                                        <input type="checkbox" checked="" class="custom-control-input">
-                                        <div class="custom-control-label">Mitsubishi
-                                            <b class="badge badge-pill badge-light float-right">35</b> </div>
-                                    </label>
-                                    <label class="custom-control custom-checkbox">
-                                        <input type="checkbox" checked="" class="custom-control-input">
-                                        <div class="custom-control-label">Nissan
-                                            <b class="badge badge-pill badge-light float-right">89</b> </div>
-                                    </label>
-                                    <label class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input">
-                                        <div class="custom-control-label">Honda
-                                            <b class="badge badge-pill badge-light float-right">30</b>  </div>
-                                    </label>
-                                </div>
-                            </div>
-                        </article>
+                        @if ($categories)
+                            <article class="filter-group">
+                                <header class="card-header">
+                                    <a href="#" data-toggle="collapse" data-target="#collapse_categories" aria-expanded="true" class="">
+                                        <i class="icon-control fa fa-chevron-down"></i>
+                                        <h6 class="title">Categories {{ Request::get('category') }}</h6>
+                                    </a>
+                                </header>
 
-                        <article class="filter-group">
-                            <header class="card-header">
-                                <a href="#" data-toggle="collapse" data-target="#collapse_3" aria-expanded="true" class="">
-                                    <i class="icon-control fa fa-chevron-down"></i>
-                                    <h6 class="title">Price range </h6>
-                                </a>
-                            </header>
-                            <div class="filter-content collapse show" id="collapse_3" style="">
-                                <div class="card-body">
-                                    <input type="range" class="custom-range" min="0" max="100" name="">
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label>Min</label>
-                                            <input class="form-control" placeholder="$0" type="number">
-                                        </div>
-                                        <div class="form-group text-right col-md-6">
-                                            <label>Max</label>
-                                            <input class="form-control" placeholder="$1,0000" type="number">
-                                        </div>
+                                <div class="filter-content collapse show" id="collapse_categories" style="">
+                                    <div class="card-body">
+                                            @foreach ($categories as $category)
+                                                <label class="custom-control custom-checkbox">
+                                                    <a href="{{ url('products?category='. $category->slug) }}">
+                                                        <input type="checkbox" {{ (Request::get('category') == $category->slug) ?  'checked' : '' }} class="custom-control-input">
+                                                        <div class="custom-control-label">{{ $category->name }}
+                                                            <b class="badge badge-pill badge-light float-right">{{ $category->products->count() }}</b>  </div>
+                                                    </a>
+                                                </label>
+                                            @endforeach
                                     </div>
-                                    <button class="btn btn-block btn-primary">Apply</button>
                                 </div>
-                            </div>
-                        </article>
+                            </article>
+                        @endif
 
+                        <!-- price range -->
+                        <form method="GET" action="{{ url('products')}}">
+                            <article class="filter-group">
+                                <header class="card-header">
+                                    <a href="#" data-toggle="collapse" data-target="#collapse_3" aria-expanded="true" class="">
+                                        <i class="icon-control fa fa-chevron-down"></i>
+                                        <h6 class="title">Price range </h6>
+                                    </a>
+                                </header>
+                                <div class="filter-content collapse show" id="collapse_3" style="">
+                                    <div class="card-body">
+                                        <input type="range" class="custom-range" min="0" max="100" name="price">
+                                        <input type="hidden" id="productMinPrice" value="{{ $minPrice }}"/>
+                                        <input type="hidden" id="productMaxPrice" value="{{ $maxPrice }}"/>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label>Min</label>
+                                                <input class="form-control" placeholder="{{ $minPrice }}" type="number" name="minPrice">
+                                            </div>
+                                            <div class="form-group text-right col-md-6">
+                                                <label>Max</label>
+                                                <input class="form-control" placeholder="{{ $maxPrice }}" type="number" name="maxPrice">
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-block btn-primary">Apply</button>
+                                    </div>
+                                </div>
+                            </article>
+                        </form>
+
+                        <!-- attributes -->
                         <article class="filter-group">
                             <header class="card-header">
                                 <a href="#" data-toggle="collapse" data-target="#collapse_4" aria-expanded="true" class="">
@@ -146,45 +135,12 @@
                             </div>
                         </article>
 
-                        <article class="filter-group">
-                            <header class="card-header">
-                                <a href="#" data-toggle="collapse" data-target="#collapse_5" aria-expanded="false" class="">
-                                    <i class="icon-control fa fa-chevron-down"></i>
-                                    <h6 class="title">More filter </h6>
-                                </a>
-                            </header>
-                            <div class="filter-content collapse in" id="collapse_5" style="">
-                                <div class="card-body">
-                                    <label class="custom-control custom-radio">
-                                        <input type="radio" name="myfilter_radio" checked="" class="custom-control-input">
-                                        <div class="custom-control-label">Any condition</div>
-                                    </label>
-
-                                    <label class="custom-control custom-radio">
-                                        <input type="radio" name="myfilter_radio" class="custom-control-input">
-                                        <div class="custom-control-label">Brand new </div>
-                                    </label>
-
-                                    <label class="custom-control custom-radio">
-                                        <input type="radio" name="myfilter_radio" class="custom-control-input">
-                                        <div class="custom-control-label">Used items</div>
-                                    </label>
-
-                                    <label class="custom-control custom-radio">
-                                        <input type="radio" name="myfilter_radio" class="custom-control-input">
-                                        <div class="custom-control-label">Very old</div>
-                                    </label>
-                                </div>
-                            </div>
-                        </article>
                     </div>
 
                 </aside>
 
                 <!-- ########## Products Side ########## -->
                 <main class="col-md-9">
-
-
 
                     @if(count($products) > 0)
 

@@ -13,57 +13,73 @@ class ProductController extends Controller
 {
     public function __construct(){
         parent::__construct();
-
-        $this->data['q'] = null;
-        $this->data['categories'] = Category::parentCategories()->orderBy('name', 'asc')->get();
-        $this->data['minPrice'] = Product::min('price');
-        $this->data['maxPrice'] = Product::max('price');
-
-        $this->data['colors'] = AttributeOption::whereHas('attribute', function ($query) {
-                $query->where('code', 'color')
-                    ->where('is_filterable', 1);
-            }
-        )->orderBy('name', 'asc')->get();
-
-        $this->data['sizes'] = AttributeOption::whereHas('attribute',function ($query) {
-                $query->where('code', 'size')
-                    ->where('is_filterable', 1);
-            }
-        )->orderBy('name', 'asc')->get();
-
-        $this->data['sorts'] = [
-            url('products') => 'Default',
-            url('products?sort=price-asc') => 'Price - Low to High',
-            url('products?sort=price-desc') => 'Price - High to Low',
-            url('products?sort=created_at-desc') => 'Newest to Oldest',
-            url('products?sort=created_at-asc') => 'Oldest to Newest',
-        ];
-
-        $this->data['selectedSort'] = url('products');
     }
 
-    public function index(Request $request){
+    public function products(Request $request){
         $products = Product::active();
 
+        // filter product here
         $products = $this->_searchProducts($products, $request);
         $products = $this->_filterProductsByPriceRange($products, $request);
-        $products = $this->_filterProductsByAttribute($products, $request);
-        $products = $this->_sortProducts($products, $request);
+        // $products = $this->_filterProductsByAttribute($products, $request);
+        // $products = $this->_sortProducts($products, $request);
 
-        $products = $products->paginate(9);
+        $products = $products->paginate(6);
 
-        return view('front.pages.product-list', compact('products'));
+        $minPrice = Product::min('price');
+        $maxPrice = Product::max('price');
+
+        // url => value
+        $breadcrumbs = [
+            'products' => 'products',
+        ];
+        return view('front.pages.product-list', compact('products','minPrice','maxPrice','breadcrumbs'));
+    }
+
+    public function productDetails($slug){
+        $product = Product::active()->where('slug', $slug)->firstOrFail();
+        if (!$product){
+            return redirect()->route('products');
+        }
+
+        // check if product is configurable and send attributes
+        $attributes = [
+            'color' => [
+                'black',
+                'white',
+            ],
+            'size' => [
+                'S',
+                'M',
+                'L',
+            ]
+        ];
+
+        $breadcrumbs = [
+            'products' => 'products',
+            'notNecessary' => $product->name,
+        ];
+
+        return view('front.pages.product-details', compact('product','attributes','breadcrumbs'));
+    }
+
+    public function categoryProducts($slug){
+        $category = Category::where('slug', $slug)->first();
+        $products = $category->products;
+
+        $breadcrumbs = [
+            'products' => 'products',
+            'notNecessary' => $category->name,
+        ];
+
+        return view('front.pages.product-list', compact('products','breadcrumbs'));
     }
 
     private function _searchProducts($products, $request){
         if ($q = $request->query('q')) {
             $q = str_replace('-', ' ', Str::slug($q));
-
-            $products = $products->whereRaw('MATCH(name, slug, short_description, description) AGAINST (? IN NATURAL LANGUAGE MODE)', [$q]);
-
-            $this->data['q'] = $q;
+            $products = $products->where('name', 'like', '%'.$q.'%');
         }
-
         if ($categorySlug = $request->query('category')) {
             $category = Category::where('slug', $categorySlug)->firstOrFail();
 
@@ -85,26 +101,16 @@ class ProductController extends Controller
         $lowPrice = null;
         $highPrice = null;
 
-        if ($priceSlider = $request->query('price')) {
-            $prices = explode('-', $priceSlider);
+        $minPrice = Product::min('price');
+        $maxPrice = Product::max('price');
 
-            $lowPrice = !empty($prices[0]) ? (float)$prices[0] : $this->data['minPrice'];
-            $highPrice = !empty($prices[1]) ? (float)$prices[1] : $this->data['maxPrice'];
+        $lowPrice = (!is_null($request->input('minPrice'))) ? (float)$request->input('minPrice') : $minPrice;
+        $highPrice = (!is_null($request->input('maxPrice'))) ? (float)$request->input('maxPrice') : $maxPrice;
 
-            if ($lowPrice && $highPrice) {
-                $products = $products->where('price', '>=', $lowPrice)
-                    ->where('price', '<=', $highPrice)
-                    ->orWhereHas(
-                        'variants',
-                        function ($query) use ($lowPrice, $highPrice) {
-                            $query->where('price', '>=', $lowPrice)
-                                ->where('price', '<=', $highPrice);
-                        }
-                    );
-
-                $this->data['minPrice'] = $lowPrice;
-                $this->data['maxPrice'] = $highPrice;
-            }
+        if ($lowPrice && $highPrice) {
+            $products = $products->where('price', '>=', $lowPrice)
+                ->where('price', '<=', $highPrice)
+                ->orWhere('price', $request->input('price'));
         }
 
         return $products;
@@ -144,34 +150,4 @@ class ProductController extends Controller
 
         return $products;
     }
-
-    public function show($slug){
-        $product = Product::active()->where('slug', $slug)->first();
-
-        if (!$product) {
-            return redirect('products');
-        }
-
-        if ($product->configurable()) {
-            $colors = ProductAttributeValue::getAttributeOptions($product, 'color')->pluck('text_value', 'text_value');
-            $sizes = ProductAttributeValue::getAttributeOptions($product, 'size')->pluck('text_value', 'text_value');
-        }
-
-        $this->data['product'] = $product;
-
-//        return $this->loadTheme('products.show', $this->data);
-        return view('front.pages.product-details', compact('products','colors','sizes'));
-    }
-
-//    public function quickView($slug){
-//        $product = Product::active()->where('slug', $slug)->firstOrFail();
-//        if ($product->configurable()) {
-//            $this->data['colors'] = ProductAttributeValue::getAttributeOptions($product, 'color')->pluck('text_value', 'text_value');
-//            $this->data['sizes'] = ProductAttributeValue::getAttributeOptions($product, 'size')->pluck('text_value', 'text_value');
-//        }
-//
-//        $this->data['product'] = $product;
-//
-//        return $this->loadTheme('products.quick_view', $this->data);
-//    }
 }
