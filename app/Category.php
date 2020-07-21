@@ -24,6 +24,10 @@ class Category extends Model
         return $query->where('parent_id', 0);
     }
 
+    public function scopeDynamicParentCategories($query, $id){
+        return $query->where('parent_id', $id);
+    }
+
     public static function childIds($parentId = 0){
         $categories = Category::select('id','name','parent_id')->where('parent_id', $parentId)->get()->toArray();
 

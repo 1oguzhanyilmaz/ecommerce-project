@@ -4,12 +4,8 @@
 
 @section('content')
 
-    <!-- ========================= Section breadcrumb ========================= -->
-    <section class="section-pagetop bg">
-        <div class="container">
-            <h2 class="title-page">My account</h2>
-        </div>
-    </section>
+    @include('front.partials.navbar')
+    @include('front.partials.bread')
 
     <!-- ========================= SECTION CONTENT ========================= -->
     <section class="section-content padding-y">

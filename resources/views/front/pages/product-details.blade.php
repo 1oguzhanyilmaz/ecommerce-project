@@ -4,8 +4,8 @@
 
 @section('content')
 
-{{--    @include('front.partials.bread')--}}
-
+    @include('front.partials.navbar')
+    @include('front.partials.bread')
     @include('alert-message')
 
     <div class="container">

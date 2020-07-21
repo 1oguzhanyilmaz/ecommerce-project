@@ -4,13 +4,8 @@
 
 @section('content')
 
-    <!-- ========================= SECTION Breadcrumb ========================= -->
-    <section class="section-pagetop bg">
-        <div class="container">
-            <h2 class="title-page">Shopping cart</h2>
-        </div>
-    </section>
-
+    @include('front.partials.navbar')
+    @include('front.partials.bread')
     @include('alert-message')
 
     <!-- ========================= SECTION CONTENT ========================= -->

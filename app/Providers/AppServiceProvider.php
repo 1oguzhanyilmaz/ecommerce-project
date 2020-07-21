@@ -23,6 +23,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        \View::composer(['front.*'], function ($view){
+            $categories = \App\Category::parentCategories()->get();
+
+            $view->with('categories', $categories);
+        });
     }
 }

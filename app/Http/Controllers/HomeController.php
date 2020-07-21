@@ -30,7 +30,12 @@ class HomeController extends Controller
 
         // filter product here
 
-        return view('front.pages.product-list', compact('products'));
+        // url => value
+        $breadcrumbs = [
+            'products' => 'products',
+        ];
+
+        return view('front.pages.product-list', compact('products','breadcrumbs'));
     }
 
     public function productDetails($slug){
@@ -52,14 +57,24 @@ class HomeController extends Controller
             ]
         ];
 
-        return view('front.pages.product-details', compact('product','attributes'));
+        $breadcrumbs = [
+            'products' => 'products',
+            'notNecessary' => $product->name,
+        ];
+
+        return view('front.pages.product-details', compact('product','attributes','breadcrumbs'));
     }
 
     public function categoryProducts($slug){
         $category = Category::where('slug', $slug)->first();
         $products = $category->products;
 
-        return view('front.pages.product-list', compact('products'));
+        $breadcrumbs = [
+            'products' => 'products',
+            'notNecessary' => $category->name,
+        ];
+
+        return view('front.pages.product-list', compact('products','breadcrumbs'));
     }
 
     #############################################################################################
@@ -108,7 +123,11 @@ class HomeController extends Controller
     public function cart(){
         $items = \Cart::getContent();
 
-        return view('front.pages.cart', compact('items'));
+        $breadcrumbs = [
+            'notNecessary' => 'cart',
+        ];
+
+        return view('front.pages.cart', compact('items','breadcrumbs'));
     }
 
     public function removeItem($itemId){
@@ -209,7 +228,11 @@ class HomeController extends Controller
         $totalWeight = $this->_getTotalWeight() / 100;
         $user = \Auth::user();
 
-        return view('front.pages.checkout', compact('items','totalWeight','user'));
+        $breadcrumbs = [
+            'notNecessary' => 'checkout',
+        ];
+
+        return view('front.pages.checkout', compact('items','totalWeight','user','breadcrumbs'));
     }
 
     public function setShipping(Request $request){
@@ -521,7 +544,11 @@ class HomeController extends Controller
 
         $user = auth()->user();
 
-        return view('front.pages.user-profile', compact('user'));
+        $breadcrumbs = [
+            'notNecessary' => 'profile',
+        ];
+
+        return view('front.pages.user-profile', compact('user','breadcrumbs'));
     }
 
     #############################################################################################
